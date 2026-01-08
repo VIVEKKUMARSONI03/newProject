@@ -1,8 +1,12 @@
 const express = require('express');
+const app = express();
 
 const { connectDB } = require('./utils/mongoConnection');
 
-const app = express();
+
+app.use(express.json());
+app.use(express.urlencoded({extended:true}));
+
 
 const uri = "mongodb+srv://vermachandra896:chandra1234@cluster0.hpioxnn.mongodb.net/projectUjwala";
 
