@@ -15,8 +15,6 @@ const branchSchema = mongoose.Schema({
     contactInfo : {
         type: Number
     }
-}, {
-    timestamps: true
 })
 
 module.exports = mongoose.model('Branch', branchSchema);

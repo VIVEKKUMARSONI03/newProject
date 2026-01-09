@@ -22,7 +22,7 @@ app.use('/project',project_router);
 app.use('/',bh);
 
 
-const uri = "mongodb+srv://vermachandra896:chandra1234@cluster0.hpioxnn.mongodb.net/projectUjwala";
+const uri = "mongodb+srv://vermachandra896:chandra1234@cluster0.hpioxnn.mongodb.net/project";
 
 connectDB(uri).then(() => {
 
