@@ -6,12 +6,11 @@
     <title>Document</title>
 </head>
 <body>
-    <h1>login</h1>
 
-    <form action = "/project/login" method = "POST">
+    <form action ='/<%= role %>/login' method = "POST">
         <input type = "text" name="email" placeholder="email">
         <input type = "text" name="password" placeholder="password">
-        <button type = 'submit'>submit</button>
+        <button type = 'submit'>login</button>
     </form>
 </body>
 </html>

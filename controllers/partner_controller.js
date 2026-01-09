@@ -3,12 +3,9 @@ const Admin = require('../models/admin_model');
 const Partner = require('../models/partener_model');
 const Branch = require('../models/branch_model');
 
-const {loginAdmin, registerAdmin} = require('./admin_controller');
-const {loginPartner, registerPartner} = require('./partner_controller');
-
 const bcrypt = require('bcryptjs');
 
-const loginUser = async (req, res) => {
+const loginPartner = async (req, res) => {
 
     const { email, password } = req.body;
 
@@ -17,15 +14,15 @@ const loginUser = async (req, res) => {
         return res.status(400).json({ message: "All fields are required" });
     }
 
-    const user = await User.findOne({ email:email });
-    if (!user) {
-        console.log("user not found");
+    const partner = await Partner.findOne({ email:email });
+    if (!partner) {
+        console.log("partner not found");
         return res.render("login");
     }
 
     
 
-    const isPasswordCorrect = await bcrypt.compare(password, user.password);
+    const isPasswordCorrect = await bcrypt.compare(password, partner.password);
     if (!isPasswordCorrect) {
         console.log('incorrect password');
         return res.render("login", { message: "Invalid email or password" });
@@ -48,32 +45,18 @@ const loginUser = async (req, res) => {
 
     console.log("reached here");
 
-    res.redirect('/user/home');
+    res.redirect('/partner/home');
 
 }
 
-const registerUser = async (req, res) => {
+const registerPartner = async (req, res) => {
     try {
-        const { name, email, password, location, branchname} = req.body;
-
-        // if( role === 'admin'){
-        //     console.log("called for admin");
-        //    registerAdmin(req,res);
-        //    return ;
-        // //res.redirect('/project/admin/register');
-        // }
-
-        // if( role === 'partner'){
-        //     console.log("called for partner");
-        //    registerPartner(req,res);
-        //    return;
-        // //res.redirect('/project/partner/register');
-        // }
+        const { name, email, password, location, branchname } = req.body;
         
-        const userExists = await User.findOne({ email });
-        if (userExists) {
-            console.log('user exists')
-            return res.render("register", { message: "User already exists" });
+        const partnerExists = await Partner.findOne({ email: email });
+        if (partnerExists) {
+            console.log('partner exists')
+            return res.render("register", { message: "partner already exists" });
         }
 
         
@@ -83,7 +66,7 @@ const registerUser = async (req, res) => {
         }
 
         
-        const user = await User.create({
+        const partner = await Partner.create({
             name,
             email,
             password,
@@ -91,13 +74,14 @@ const registerUser = async (req, res) => {
             branch: branch._id   
         });
 
-        if (!user) {
-            return res.render("register", { message: "Invalid user data" });
+        if (!partner) {
+            console.log('invalid partner data');
+            return res.render("register", { message: "Invalid partner data" });
         }
 
-        console.log('user created successfully');
+        console.log('partner created successfully');
 
-        return res.redirect('/user/home');
+        return res.redirect('/partner/home');
 
     } catch (error) {
         console.error(error);
@@ -106,4 +90,4 @@ const registerUser = async (req, res) => {
 };
 
 
-module.exports = { loginUser: loginUser, registerUser: registerUser};
+module.exports = { loginPartner: loginPartner, registerPartner: registerPartner};

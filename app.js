@@ -5,8 +5,10 @@ const path = require('path');
 //local module
 const { connectDB } = require('./utils/mongoConnection');
 const rootdir = require('./utils/get_path');
-const { bh } = require('./controllers/base_home');
-const {project_router} = require('./routers/project_router');
+const {project_router} = require('./routers/user_router');
+const {admin_router} = require('./routers/admin_router');
+const {partner_router} = require('./routers/partner_router');
+const {common_router} = require('./routers/comman_router');
 
 
 app.use(express.json());
@@ -17,9 +19,16 @@ app.set('views', 'views');
 
 app.use(express.static(path.join(rootdir,'public')));
 
-
-app.use('/project',project_router);
-app.use('/',bh);
+app.use('/admin',admin_router);
+app.use('/partner', partner_router);
+app.use('/user',project_router);
+app.use('/common', common_router);
+app.use('/',(req, res, next)=>{
+    res.render('base_home')
+})
+// app.use('/',(req,res,next) => {
+//     res.render('404');
+// })
 
 
 const uri = "mongodb+srv://vermachandra896:chandra1234@cluster0.hpioxnn.mongodb.net/project";

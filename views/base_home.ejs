@@ -1,14 +1,40 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
 </head>
-<body>
-     <h3> base home </h3>
 
-     <a href = "/project/login">login</a>
-     <a href = "/project/register">register</a>
+<body>
+    <h3> base home </h3>
+
+    <form action="/common/login" method="POST">
+        <label for="role">Login as:</label>
+
+        <select name="role" id="role" required>
+            <option value="">-- Select Role --</option>
+            <option value="user">User</option>
+            <option value="admin">Admin</option>
+            <option value="partner">Partner</option>
+        </select>
+
+        <button type="submit">Login</button>
+    </form>
+
+    <form action="/common/register" method="POST">
+        <label for="rolla">register as:</label>
+
+        <select name="rolla" id="rolla" required>
+            <option value="">-- Select Role --</option>
+            <option value="user">User</option>
+            <option value="admin">Admin</option>
+            <option value="partner">Partner</option>
+        </select>
+
+        <button type="submit">Register</button>
+    </form>
 </body>
+
 </html>
