@@ -8,12 +8,19 @@
 <body>
     <h1>register</h1>
 
-    <form action = '/project/login' method = 'POST'>
+    <form action = '/project/register' method = 'POST'>
         <input type = 'text' name = 'name' placeholder="name">
         <input type = 'text' name = 'email'placeholder='email'>
         <input type = 'text' name = 'password' placeholder="password">
         <input type = 'number' name = 'location' placeholder="location : pin code">
         <input type = 'text' name = 'branchname' placeholder="branch name">
+         <label for="role">Select Role:</label>
+    <select name="role" id="role" required>
+        <option value="">-- Select --</option>
+        <option value="admin">Admin</option>
+        <option value="user">User</option>
+        <option value="guest">Guest</option>
+    </select>
         <button type = 'submit'>submit</button>
     </form>
 </body>
