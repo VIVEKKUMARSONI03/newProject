@@ -1,6 +1,6 @@
 const express = require('express');
 const admin_router = express.Router();
-const { loginAdmin,registerAdmin} = require('../controllers/admin_controller');
+const { loginAdmin,registerAdmin, get_list} = require('../controllers/admin_controller');
 const { add_branch} = require('../controllers/branch_controller');
 
 admin_router.get('/login',(req, res, next) => {
@@ -20,5 +20,7 @@ admin_router.post('/register', registerAdmin);
 // })
 
 admin_router.post('/add_branch',add_branch);
+
+admin_router.post('/:email/get_orders',get_list);
 
 module.exports = {admin_router : admin_router };

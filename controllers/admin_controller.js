@@ -1,6 +1,7 @@
 const User = require('../models/user_model');
 const Admin = require('../models/admin_model');
 const Partner = require('../models/partener_model');
+const Order = require('../models/order_model');
 const Branch = require('../models/branch_model');
 
 const bcrypt = require('bcryptjs');
@@ -45,7 +46,7 @@ const loginAdmin = async (req, res) => {
 
     console.log("reached here");
 
-    res.render('admin_home');
+    res.render('admin_home',{name:admin.name, email:email,orders:{}});
 
 }
 
@@ -88,7 +89,34 @@ const registerAdmin = async (req, res) => {
     }
 };
 
+const get_list = async(req, res, next) => {
+
+   const {email} = req.params;
+
+   const orders = await Order.find()
+  .populate({
+    path: 'user',
+    select: 'name email'
+  });
+
+
+   if( !orders){
+    console.log('something error in fetching order list');
+   }
+
+   const admin = await Admin.findOne({email:email});
+
+   if(!admin){
+       console.log('admin not found please login again');
+       res.render('login',{role:admin});
+   }
 
 
 
-module.exports = { loginAdmin: loginAdmin, registerAdmin: registerAdmin};
+   console.log('orders are : ',orders);
+   
+   res.render('orders_list',{orders:orders});
+   
+}
+
+module.exports = { loginAdmin: loginAdmin, registerAdmin: registerAdmin, get_list: get_list};

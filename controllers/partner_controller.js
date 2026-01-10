@@ -17,7 +17,7 @@ const loginPartner = async (req, res) => {
     const partner = await Partner.findOne({ email:email });
     if (!partner) {
         console.log("partner not found");
-        return res.render("login");
+        return res.render("login",{role: null});
     }
 
     
@@ -45,7 +45,7 @@ const loginPartner = async (req, res) => {
 
     console.log("reached here");
 
-    res.redirect('/partner/home');
+    res.render('partner_home',{name:partner.name,email:email})
 
 }
 

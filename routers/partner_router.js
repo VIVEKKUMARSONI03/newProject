@@ -14,6 +14,4 @@ partner_router.post('/login',loginPartner);
 
 partner_router.post('/register', registerPartner);
 
-//partner_router.post('/home',)
-
 module.exports = {partner_router : partner_router };

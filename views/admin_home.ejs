@@ -1,22 +1,32 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
 </head>
+
 <body>
     <h1>welcome to admin home</h1>
 
-    <form action = '/admin/add_branch' method = 'POST'>
-        <input type = 'text' name = 'name' placeholder = 'branch name'>
-        <input type = 'number' name = 'location' placeholder = 'location'>
-        <input type = 'number' name = 'contactInfo' placeholder = 'contact number'>
-        <button type = 'submit'>submin</button>
+    <h3>name : <%= name %>
+    </h3>
+    <h3>email :<%= email %>
+    </h3>
+
+    <form action='/admin/add_branch' method='POST'>
+        <input type='text' name='name' placeholder='branch name'>
+        <input type='number' name='location' placeholder='location'>
+        <input type='number' name='contactInfo' placeholder='contact number'>
+        <button type='submit'>submin</button>
     </form>
 
-    <form action = '/admin/get_orders' method = 'POST'>
-        <button type = 'submit'>get orders list</button>
+    <form action='/admin/<%= email %>/get_orders' method='POST'>
+        <button type='submit'>get orders list</button>
     </form>
+
+    
 </body>
+
 </html>
