@@ -1,4 +1,6 @@
 const mongoose = require('mongoose');
+const bcrypt = require('bcryptjs');
+
 
 const partnerSchema = new mongoose.Schema({
       name:{
@@ -26,6 +28,13 @@ const partnerSchema = new mongoose.Schema({
         ref : 'Branch',
         required: true
       }
+})
+
+partnerSchema.pre("save", async function () {
+    if(!this.isModified("password")) return next();
+
+    this.password = await bcrypt.hash(this.password, 10)
+    
 })
 
 module.exports = mongoose.model('Partner', partnerSchema);

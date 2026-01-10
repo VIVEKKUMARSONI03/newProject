@@ -89,4 +89,6 @@ const registerAdmin = async (req, res) => {
 };
 
 
+
+
 module.exports = { loginAdmin: loginAdmin, registerAdmin: registerAdmin};
