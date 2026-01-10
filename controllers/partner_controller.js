@@ -140,7 +140,9 @@ const get_list = async (req, res) => {
 
         console.log(list);
 
-        // res.render('orders_list',)
+        
+
+        res.render('orders_list',{orders: list});
 
         return;
     } catch (error) {
