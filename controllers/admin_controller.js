@@ -1,6 +1,4 @@
-const User = require('../models/user_model');
 const Admin = require('../models/admin_model');
-const Partner = require('../models/partener_model');
 const Order = require('../models/order_model');
 const Branch = require('../models/branch_model');
 

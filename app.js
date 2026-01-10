@@ -1,6 +1,8 @@
 const express = require('express');
 const app = express();
 const path = require('path');
+const cookieParser = require('cookie-parser');
+
 
 //local module
 const { connectDB } = require('./utils/mongoConnection');
@@ -11,6 +13,7 @@ const {partner_router} = require('./routers/partner_router');
 const {common_router} = require('./routers/comman_router');
 
 require('dotenv').config(); 
+app.use(cookieParser()); 
 app.use(express.json());
 app.use(express.urlencoded({extended:true}));
 
@@ -26,9 +29,6 @@ app.use('/common', common_router);
 app.use('/',(req, res, next)=>{
     res.render('base_home')
 })
-// app.use('/',(req,res,next) => {
-//     res.render('404');
-// })
 
 
 const uri = "mongodb+srv://vermachandra896:chandra1234@cluster0.hpioxnn.mongodb.net/project";

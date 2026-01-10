@@ -1,6 +1,4 @@
 const User = require('../models/user_model');
-const Admin = require('../models/admin_model');
-const Partner = require('../models/partener_model');
 const Branch = require('../models/branch_model');
 const Order = require('../models/order_model');
 
@@ -69,20 +67,6 @@ const loginUser = async (req, res) => {
 const registerUser = async (req, res) => {
     try {
         const { name, email, password, location, branchname} = req.body;
-
-        // if( role === 'admin'){
-        //     console.log("called for admin");
-        //    registerAdmin(req,res);
-        //    return ;
-        // //res.redirect('/project/admin/register');
-        // }
-
-        // if( role === 'partner'){
-        //     console.log("called for partner");
-        //    registerPartner(req,res);
-        //    return;
-        // //res.redirect('/project/partner/register');
-        // }
         
         const userExists = await User.findOne({ email });
         if (userExists) {
