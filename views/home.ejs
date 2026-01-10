@@ -7,5 +7,19 @@
 </head>
 <body>
     <h2>welcome to user home</h2>
+    <h3>name : <%= name %></h3>
+    <h3>email :<%= email %></h3>
+
+    <h3> make an order </h3>
+
+    <form action = '/user/order/<%= email %>' method = 'POST'>
+        <input type = 'text' name = 'location' placeholder = 'where you want the cylinder'>
+        <button  >payment</button>
+        <button type = 'submit'>place</button>
+    </form>
+
+    <form action = '/user/track' method = 'POST'>
+        <button type = 'submit'>TRACK</button>
+    </form>
 </body>
 </html>

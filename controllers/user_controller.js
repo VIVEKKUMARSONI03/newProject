@@ -2,11 +2,29 @@ const User = require('../models/user_model');
 const Admin = require('../models/admin_model');
 const Partner = require('../models/partener_model');
 const Branch = require('../models/branch_model');
+const Order = require('../models/order_model');
 
 const {loginAdmin, registerAdmin} = require('./admin_controller');
 const {loginPartner, registerPartner} = require('./partner_controller');
 
 const bcrypt = require('bcryptjs');
+
+const generateAccessAndRefereshTokens = async(userId) =>{
+    try {
+        const user = await User.findById(userId)
+        const accessToken = user.generateAccessToken()
+        const refreshToken = user.generateRefreshToken()
+
+        user.refreshToken = refreshToken
+        await user.save({ validateBeforeSave: false })
+
+        return {accessToken, refreshToken}
+
+
+    } catch (error) {
+        console.log("error while generating access and refresh token: ", error);
+    }
+}
 
 const loginUser = async (req, res) => {
 
@@ -31,24 +49,20 @@ const loginUser = async (req, res) => {
         return res.render("login", { message: "Invalid email or password" });
     }
 
-    //   const token = await generateAccessAndRefereshTokens(user._id);
+      const token = await generateAccessAndRefereshTokens(user._id);
 
-    //   const options = {
-    //     httpOnly: true,
-    //     secure: false, // localhost
-    //     sameSite: "lax"
-    //   };
+      const options = {
+        httpOnly: true,
+        secure: false, // localhost
+        sameSite: "lax"
+      };
 
-    //   res.cookie("accessToken", token, options);
-
-    //   res.render("home", { 
-    //     local: { id: user._id },
-    //     analytics: { redirectURL: null, visitHistory: [] }
-    //   });
+      res.cookie("accessToken", token, options);
 
     console.log("reached here");
-
-    res.redirect('/user/home');
+    
+    
+    res.render('home',{email : email, name : user.name});
 
 }
 
@@ -97,7 +111,7 @@ const registerUser = async (req, res) => {
 
         console.log('user created successfully');
 
-        return res.redirect('/user/home');
+        res.render('home',{email: email,name: user.name});
 
     } catch (error) {
         console.error(error);
@@ -105,5 +119,30 @@ const registerUser = async (req, res) => {
     }
 };
 
+const create_order = async (req, res, next) => {
 
-module.exports = { loginUser: loginUser, registerUser: registerUser};
+     
+
+     console.log('i am inside the create order function');
+
+     const {email} = req.params;
+
+     const user = await User.findOne({email: email});
+
+     if( !user){
+        console.log('user not found for order');
+        res.render('login');
+     }
+
+     const order = await Order.create({
+         user : user._id
+     })
+
+     console.log('order placed and your order is : ', order);
+     res.render('home',{email: email,name: user.name});
+
+
+}
+
+
+module.exports = { loginUser: loginUser, registerUser: registerUser,create_order: create_order};

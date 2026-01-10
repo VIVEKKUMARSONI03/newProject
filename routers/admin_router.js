@@ -15,9 +15,9 @@ admin_router.post('/login',loginAdmin);
 
 admin_router.post('/register', registerAdmin);
 
-admin_router.get('/home',(req, res) => {
-    res.render('admin_home');
-})
+// admin_router.get('/home',(req, res) => {
+//     res.render('admin_home');
+// })
 
 admin_router.post('/add_branch',add_branch);
 

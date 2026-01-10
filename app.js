@@ -10,7 +10,7 @@ const {admin_router} = require('./routers/admin_router');
 const {partner_router} = require('./routers/partner_router');
 const {common_router} = require('./routers/comman_router');
 
-
+require('dotenv').config(); 
 app.use(express.json());
 app.use(express.urlencoded({extended:true}));
 

@@ -45,7 +45,7 @@ const loginAdmin = async (req, res) => {
 
     console.log("reached here");
 
-    res.redirect('/admin/home');
+    res.render('admin_home');
 
 }
 
