@@ -1,9 +1,9 @@
 const socket = io();
 
-socket.emit('mff', 'i am partner');
+socket.emit('msg_from_partner', 'i am partner');
 
 socket.on('mfb', (msg) => {
-    console.log(msg);
+    console.log('partner is printing',msg);
 })
 
 const setloc = () => {
@@ -17,7 +17,7 @@ const setloc = () => {
                 // console.log("Latitude:", latitude);
                 // console.log("Longitude:", longitude);
 
-                socket.emit('mff', `partner Loc : latitude: ${latitude}, longitude : ${longitude}`);
+                socket.emit('msg_from_partner', `partner Loc : latitude: ${latitude}, longitude : ${longitude}`);
             },
             (error) => {
                 console.error("Error getting location:", error.message);

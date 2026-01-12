@@ -42,19 +42,15 @@ const uri = "mongodb+srv://vermachandra896:chandra1234@cluster0.hpioxnn.mongodb.
 io.on('connection', (socket) => {
   console.log('guest online');
 
-  socket.on('mff', (msg) => {
-    console.log(msg);
-    socket.emit('mfb', 'i am from backend');
+  socket.on('msg_from_user', (msg) => {
+    // console.log(msg);
+    socket.broadcast.emit('mfb', msg);
   });
 
   socket.on('disconnect', () => {
     console.log('guest offline');
   });
 });
-
-const fun = (req, res, next) => {
-    console.log(req.cookies.accessToken);
-}
 
 connectDB(uri).then(() => {
 
