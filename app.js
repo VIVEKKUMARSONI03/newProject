@@ -15,6 +15,7 @@ const {project_router} = require('./routers/user_router');
 const {admin_router} = require('./routers/admin_router');
 const {partner_router} = require('./routers/partner_router');
 const {common_router} = require('./routers/comman_router');
+const { findOneAndUpdate } = require('./models/user_model');
 
 require('dotenv').config(); 
 app.use(cookieParser()); 
@@ -30,6 +31,7 @@ app.use('/admin',admin_router);
 app.use('/partner', partner_router);
 app.use('/user',project_router);
 app.use('/common', common_router);
+
 app.use('/',(req,res, next)=>{
     res.render('base_home');
 });
@@ -50,6 +52,9 @@ io.on('connection', (socket) => {
   });
 });
 
+const fun = (req, res, next) => {
+    console.log(req.cookies.accessToken);
+}
 
 connectDB(uri).then(() => {
 
