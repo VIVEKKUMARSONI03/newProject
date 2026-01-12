@@ -38,11 +38,18 @@ app.use('/',(req,res, next)=>{
 const uri = "mongodb+srv://vermachandra896:chandra1234@cluster0.hpioxnn.mongodb.net/project";
 
 io.on('connection', (socket) => {
-  console.log('a user connected');
+  console.log('guest online');
+
+  socket.on('mff', (msg) => {
+    console.log(msg);
+    socket.emit('mfb', 'i am from backend');
+  });
+
   socket.on('disconnect', () => {
-    console.log('user disconnected');
+    console.log('guest offline');
   });
 });
+
 
 connectDB(uri).then(() => {
 
