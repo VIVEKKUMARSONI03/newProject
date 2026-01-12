@@ -60,7 +60,7 @@ const loginPartner = async (req, res) => {
     console.log("reached here");
 
 
-    res.render('partner_home', { email: email, name: partner.name });
+    res.render('partner_home', { email: email, name: partner.name, loc: partner.location });
 
 }
 

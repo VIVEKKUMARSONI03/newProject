@@ -8,8 +8,10 @@
 <body>
     <h1> welcome to partner home</h1>
 
-    <h3>name : <%= name %></h3>
-    <h3>email :<%= email %></h3>
+    <h3 id = 'name'>name : <%= name %></h3>
+    <h3 id = 'email'>email :<%= email %></h3>
+    <h3 id = 'ploc'>loc : <%= loc %></h3>
+    
 
     <form action = '/partner/get_list' method = 'POST'>
         <button type = 'submit'>get ordered list</button>

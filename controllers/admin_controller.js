@@ -44,7 +44,7 @@ const loginAdmin = async (req, res) => {
 
     console.log("reached here");
 
-    res.render('admin_home',{name:admin.name, email:email,orders:{}});
+    res.render('admin_home',{name:admin.name, email:email, loc: admin.location, orders:{}});
 
 }
 

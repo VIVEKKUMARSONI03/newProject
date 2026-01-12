@@ -60,7 +60,7 @@ const loginUser = async (req, res) => {
     console.log("reached here");
     
     
-    res.render('home',{email : email, name : user.name});
+    res.render('home',{email : email, name : user.name, loc: user.location});
 
 }
 
@@ -95,7 +95,7 @@ const registerUser = async (req, res) => {
 
         console.log('user created successfully');
 
-        res.render('home',{email: email,name: user.name});
+        res.render('home',{email: email,name: user.name, loc: user.location});
 
     } catch (error) {
         console.error(error);
@@ -123,7 +123,7 @@ const create_order = async (req, res, next) => {
      })
 
      console.log('order placed and your order is : ', order);
-     res.render('home',{email: email,name: user.name});
+     res.render('home',{email: email,name: user.name, loc : user.location});
 
 
 }

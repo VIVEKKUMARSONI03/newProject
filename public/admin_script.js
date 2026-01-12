@@ -1,4 +1,8 @@
+const loc = document.getElementById('aloc');
+const nm = ducument.getElementById('name');
 const socket = io();
+
+
 
 socket.emit('msg_from_admin', 'i am admin');
 
@@ -17,7 +21,8 @@ const setloc = () => {
                 // console.log("Latitude:", latitude);
                 // console.log("Longitude:", longitude);
 
-                socket.emit('msg_from_admin', `admin Loc : latitude: ${latitude}, longitude : ${longitude}`);
+                //socket.emit('msg_from_admin', `admin Loc : latitude: ${latitude}, longitude : ${longitude}`);
+                socket.emit({latitude:latitude, longitude: longitude, location: loc.textContent, name: nm.textContent});
             },
             (error) => {
                 console.error("Error getting location:", error.message);
