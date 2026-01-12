@@ -2,6 +2,10 @@ const express = require('express');
 const app = express();
 const path = require('path');
 const cookieParser = require('cookie-parser');
+const { Server } = require("socket.io");
+const http = require('http');
+const server = http.createServer(app);
+const io = new Server(server);
 
 
 //local module
@@ -26,16 +30,16 @@ app.use('/admin',admin_router);
 app.use('/partner', partner_router);
 app.use('/user',project_router);
 app.use('/common', common_router);
-app.use('/',(req, res, next)=>{
-    res.render('base_home')
-})
+app.use('/',(req,res, next)=>{
+    res.render('base_home');
+});
 
 
 const uri = "mongodb+srv://vermachandra896:chandra1234@cluster0.hpioxnn.mongodb.net/project";
 
 connectDB(uri).then(() => {
 
-    app.listen(3000, () => {
+    server.listen(3000, () => {
         console.log("server is listening at 3000");
     })
 

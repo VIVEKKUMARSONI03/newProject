@@ -140,7 +140,7 @@ const get_list = async (req, res) => {
 
         console.log(list);
 
-        
+        console.log(partner);
 
         res.render('orders_list',{orders: list});
 

@@ -14,10 +14,6 @@ project_router.post('/login',loginUser);
 
 project_router.post('/register', registerUser);
 
-// project_router.get('/home',(req, res, next) => {
-//     res.render('home');
-// });
-
 project_router.post('/order/:email',create_order);
 
 
