@@ -37,6 +37,13 @@ app.use('/',(req,res, next)=>{
 
 const uri = "mongodb+srv://vermachandra896:chandra1234@cluster0.hpioxnn.mongodb.net/project";
 
+io.on('connection', (socket) => {
+  console.log('a user connected');
+  socket.on('disconnect', () => {
+    console.log('user disconnected');
+  });
+});
+
 connectDB(uri).then(() => {
 
     server.listen(3000, () => {
