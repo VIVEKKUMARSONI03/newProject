@@ -4,7 +4,7 @@ const socket = io();
 
 socket.emit('msg_from_user', 'i am a user');
 
-let user = { lat: 21.24366, lng: 81.63560 };
+let user = { lat: 21.24366, lng: 81.63560};
 let partner = { lat: 21.2379, lng: 81.6337 };
 
 const map = L.map("map").setView([user.lat, user.lng], 14);
@@ -13,12 +13,19 @@ L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", {
     maxZoom: 19,
 }).addTo(map);
 
+const gasIcon = L.icon({
+  iconUrl: "https://res.cloudinary.com/dftacepnw/image/upload/v1758679016/Pngtree_gas_cylinder_icon_vector_11080127_m5jqyw.png",   
+  iconSize: [26, 26],       
+  iconAnchor: [20, 40],     
+  popupAnchor: [0, -40]     
+});
+
 
 let userMarker = L.marker([user.lat, user.lng])
     .addTo(map)
     .bindPopup("User");
 
-let partnerMarker = L.marker([partner.lat, partner.lng])
+let partnerMarker = L.marker([partner.lat, partner.lng], { icon: gasIcon })
     .addTo(map)
     .bindPopup("Delivery Partner");
 
@@ -85,5 +92,5 @@ async function drawRoute(user, partner) {
     map.fitBounds(routeLine.getBounds());
 }
 
-setInterval(setloc, 500);
+setInterval(setloc, 3000);
 

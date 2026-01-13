@@ -4,10 +4,17 @@ const socket = io();
 
 socket.emit('msg_from_partner', `i am partner ${nm.textContent}`);
 
-let user = { lat: 21.2514, lng: 81.6296 };
+let user = { lat: 21.24366, lng: 81.63560};
 let partner = { lat: 21.2379, lng: 81.6337 };
 
 const map = L.map("map").setView([partner.lat, partner.lng], 14);
+
+const gasIcon = L.icon({
+  iconUrl: "https://res.cloudinary.com/dftacepnw/image/upload/v1758679016/Pngtree_gas_cylinder_icon_vector_11080127_m5jqyw.png",   
+  iconSize: [26, 26],       
+  iconAnchor: [20, 40],     
+  popupAnchor: [0, -40]     
+});
 
 L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", {
     maxZoom: 19,
@@ -16,7 +23,7 @@ L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", {
 let userMarker = L.marker([user.lat, user.lng]).addTo(map)
     .bindPopup("User");
 
-let partnerMarker = L.marker([partner.lat, partner.lng]).addTo(map)
+let partnerMarker = L.marker([partner.lat, partner.lng], { icon: gasIcon }).addTo(map)
     .bindPopup("Delivery Partner");
 
 
@@ -32,7 +39,7 @@ socket.on('mfu_vb_fp', (msg) => {
     }
 
     user.lat = u_latitude; user.lng = u_longitude;
-    userMarker.setLatLng([user.lat,user.lng]);
+    userMarker.setLatLng([user.lat, user.lng]);
 
     drawRoute(user, partner);
 
@@ -47,7 +54,7 @@ const setloc = () => {
                 const longitude = position.coords.longitude;
 
                 partner.lat = latitude; partner.lng = longitude;
-                partnerMarker.setLatLng([partner.lat,partner.lng]);
+                partnerMarker.setLatLng([partner.lat, partner.lng]);
 
                 socket.emit('msg_from_partner', { p_latitude: latitude, p_longitude: longitude, p_location: loc.textContent, p_name: nm.textContent });
             },
@@ -85,4 +92,4 @@ async function drawRoute(user, partner) {
     map.fitBounds(routeLine.getBounds());
 }
 
-setInterval(setloc, 500);
+setInterval(setloc, 3000);
