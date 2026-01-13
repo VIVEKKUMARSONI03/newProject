@@ -4,14 +4,24 @@ const socket = io();
 
 socket.emit('msg_from_partner', `i am partner ${nm.textContent}`);
 
-const user = { lat: 21.2514, lng: 81.6296 };
-const partner = { lat: 21.2379, lng: 81.6337 };
+let user = { lat: 21.2514, lng: 81.6296 };
+let partner = { lat: 21.2379, lng: 81.6337 };
 
-const map = L.map("map").setView(user, 14);
+const map = L.map("map").setView([partner.lat, partner.lng], 14);
 
 L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", {
     maxZoom: 19,
 }).addTo(map);
+
+let userMarker = L.marker([user.lat, user.lng]).addTo(map)
+    .bindPopup("User");
+
+let partnerMarker = L.marker([partner.lat, partner.lng]).addTo(map)
+    .bindPopup("Delivery Partner");
+
+
+let routeLine = null;
+
 
 
 socket.on('mfu_vb_fp', (msg) => {
@@ -22,11 +32,9 @@ socket.on('mfu_vb_fp', (msg) => {
     }
 
     user.lat = u_latitude; user.lng = u_longitude;
-    const userMarker = L.marker([user.lat, user.lng]).addTo(map)
-        .bindPopup("User");
+    userMarker.setLatLng([user.lat,user.lng]);
 
-    const partnerMarker = L.marker([partner.lat, partner.lng]).addTo(map)
-        .bindPopup("Delivery Partner");
+    drawRoute(user, partner);
 
 })
 
@@ -39,6 +47,7 @@ const setloc = () => {
                 const longitude = position.coords.longitude;
 
                 partner.lat = latitude; partner.lng = longitude;
+                partnerMarker.setLatLng([partner.lat,partner.lng]);
 
                 socket.emit('msg_from_partner', { p_latitude: latitude, p_longitude: longitude, p_location: loc.textContent, p_name: nm.textContent });
             },
@@ -50,6 +59,30 @@ const setloc = () => {
         console.log("Geolocation is not supported");
     }
 
+}
+
+async function drawRoute(user, partner) {
+    const url = `https://router.project-osrm.org/route/v1/driving/` +
+        `${partner.lng},${partner.lat};${user.lng},${user.lat}` +
+        `?overview=full&geometries=geojson`;
+
+    const res = await fetch(url);
+    const data = await res.json();
+
+    const coords = data.routes[0].geometry.coordinates.map(
+        ([lng, lat]) => [lat, lng]
+    );
+
+    if (routeLine) {
+        map.removeLayer(routeLine);
+    }
+
+    routeLine = L.polyline(coords, {
+        color: "blue",
+        weight: 5,
+    }).addTo(map);
+
+    map.fitBounds(routeLine.getBounds());
 }
 
 setInterval(setloc, 500);
