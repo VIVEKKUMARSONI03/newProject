@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+</head>
+
+<body>
+    <h3 id = 'name'>name: <%= name %></h3>
+    <h3 id = 'email'>email: <%= email %></h3>
+    <h3 id = 'loc'>loc : <%= loc %></h3>
+    <div id="map" style="height: 100vh;"></div>
+
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+    <script src="/socket.io/socket.io.js"></script>
+    <script src="/partner_map_script.js"></script>
+</body>
+
+</html>

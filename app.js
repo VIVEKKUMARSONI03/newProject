@@ -43,9 +43,12 @@ io.on('connection', (socket) => {
   console.log('guest online');
 
   socket.on('msg_from_user', (msg) => {
-    //console.log(msg);
-    socket.broadcast.emit('mfb', msg);
+    socket.broadcast.emit('mfu_vb_fp', msg);
   });
+
+  socket.on('msg_from_partner',(msg) => {
+    socket.broadcast.emit('mfp_vb_fu',msg);
+  })
 
   socket.on('disconnect', () => {
     console.log('guest offline');

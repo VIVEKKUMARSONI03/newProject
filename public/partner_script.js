@@ -2,13 +2,13 @@ const loc = document.getElementById('ploc');
 const nm = document.getElementById('name');
 const socket = io();
 
-socket.emit('msg_from_partner', 'i am partner');
+socket.emit('msg_from_partner', `i am partner ${nm.textContent}`);
 
-socket.on('mfb', (msg) => {
-    //console.log('partner is printing',msg);
-    const {latitude,longitude,location,name} = msg;
-    if( location === loc.textContent){
-        console.log('partner is printing',msg);
+socket.on('mfu_vb_fp', (msg) => {
+    
+    const {u_latitude,u_longitude,u_location,u_name} = msg;
+    if( u_location === loc.textContent){
+        console.log(`partner ${nm.textContent} is printing`,msg);
     }
 })
 
@@ -20,11 +20,7 @@ const setloc = () => {
                 const latitude = position.coords.latitude;
                 const longitude =  position.coords.longitude;
 
-                // console.log("Latitude:", latitude);
-                // console.log("Longitude:", longitude);
-
-                // socket.emit('msg_from_partner', `partner Loc : latitude: ${latitude}, longitude : ${longitude}`);
-                socket.emit('msg_from_partner',{latitude:latitude, longitude: longitude, location : loc.textContent, name: nm.textContent});
+                socket.emit('msg_from_partner',{p_latitude:latitude, p_longitude: longitude, p_location : loc.textContent, p_name: nm.textContent});
             },
             (error) => {
                 console.error("Error getting location:", error.message);
@@ -36,4 +32,4 @@ const setloc = () => {
 
 }
 
-setInterval(setloc,3000);
+setInterval(setloc,500);

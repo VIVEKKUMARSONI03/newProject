@@ -128,5 +128,19 @@ const create_order = async (req, res, next) => {
 
 }
 
+const show_map = async(req, res, next) => {
+     
+     const {email} = req.params;
 
-module.exports = { loginUser: loginUser, registerUser: registerUser,create_order: create_order};
+     const user = await User.findOne({email: email});
+
+     if( !user){
+        console.log('user not found for order');
+        res.render('login');
+     }
+
+     res.render('map_for_user',{email: email, name: user.name, loc: user.location});
+}
+
+
+module.exports = { loginUser: loginUser, registerUser: registerUser,create_order: create_order, show_map: show_map};
