@@ -18,6 +18,11 @@ const adminSchema = new mongoose.Schema({
     required: true
   },
 
+  location: {
+    type: Object,
+    required: true
+  },
+
   branchcode: {
     type: Number,
     required: true

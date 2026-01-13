@@ -23,6 +23,11 @@ const userSchema = new mongoose.Schema({
         required: true
     },
 
+    location: {
+        type: Object,
+        required: true
+    },
+
     branch: {
         type: mongoose.Schema.ObjectId,
         ref: 'Branch',

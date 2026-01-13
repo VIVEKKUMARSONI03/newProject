@@ -70,6 +70,7 @@ const registerAdmin = async (req, res) => {
             email,
             password,
             branchcode: Number(branchcode),
+            location,
             branch: branch._id   
         });
 

@@ -11,6 +11,11 @@ const branchSchema = mongoose.Schema({
         required: true,
         unique: true
     },
+
+    location: {
+        type: Object,
+        required: true
+    },
     
     contactInfo : {
         type: Number

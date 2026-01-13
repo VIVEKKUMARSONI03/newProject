@@ -66,7 +66,7 @@ const loginPartner = async (req, res) => {
 
 const registerPartner = async (req, res) => {
     try {
-        const { name, email, password, branchcode, branchname } = req.body;
+        const { name, email, password, branchcode, location, branchname } = req.body;
 
         const partnerExists = await Partner.findOne({ email: email });
         if (partnerExists) {
@@ -87,6 +87,7 @@ const registerPartner = async (req, res) => {
             email,
             password,
             branchcode: Number(branchcode),
+            location : location,
             branch: branch._id
         });
 

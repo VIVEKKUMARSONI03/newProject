@@ -3,7 +3,7 @@ const Branch = require('../models/branch_model');
 const add_branch = async(req, res, next) => {
 
       
-       const {name, branchcode , contactInfo}  = req.body;
+       const {name, branchcode, location, contactInfo}  = req.body;
 
        const branch = await Branch.findOne({name : name});
 
@@ -15,6 +15,7 @@ const add_branch = async(req, res, next) => {
        const newBranch = await Branch.create({
           name : name,
           branchcode : branchcode,
+          location: location,
           contactInfo: contactInfo
        });
 

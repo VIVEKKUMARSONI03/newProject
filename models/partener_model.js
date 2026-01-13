@@ -3,44 +3,49 @@ const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
 
 const partnerSchema = new mongoose.Schema({
-      name:{
-         type: String,
-         required: true
-      },
-
-      email:{
-         type: String,
-         required: true
-      },
-
-      password:{
+    name: {
         type: String,
         required: true
-      }, 
+    },
 
-      branchcode:{
-        type: Number,
-        required : true
-      },
-
-      branch:{
-        type : mongoose.Schema.ObjectId,
-        ref : 'Branch',
+    email: {
+        type: String,
         required: true
-      },
+    },
+
+    password: {
+        type: String,
+        required: true
+    },
+
+    location: {
+        type: Object,
+        required: true
+    },
+
+    branchcode: {
+        type: Number,
+        required: true
+    },
+
+    branch: {
+        type: mongoose.Schema.ObjectId,
+        ref: 'Branch',
+        required: true
+    },
     refreshToken: {
-    type: String
-}
+        type: String
+    }
 })
 
 partnerSchema.pre("save", async function () {
-    if(!this.isModified("password")) return;
+    if (!this.isModified("password")) return;
 
     this.password = await bcrypt.hash(this.password, 10)
-    
+
 })
 
-partnerSchema.methods.generateAccessToken = function(){
+partnerSchema.methods.generateAccessToken = function () {
     return jwt.sign(
         {
             _id: this._id,
@@ -52,11 +57,11 @@ partnerSchema.methods.generateAccessToken = function(){
         }
     )
 }
-partnerSchema.methods.generateRefreshToken = function(){
+partnerSchema.methods.generateRefreshToken = function () {
     return jwt.sign(
         {
             _id: this._id,
-            
+
         },
         process.env.REFRESH_TOKEN_SECRET,
         {

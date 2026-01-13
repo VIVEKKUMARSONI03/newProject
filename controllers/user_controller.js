@@ -66,7 +66,7 @@ const loginUser = async (req, res) => {
 
 const registerUser = async (req, res) => {
     try {
-        const { name, email, password, branchcode, branchname} = req.body;
+        const { name, email, password, branchcode, location, branchname} = req.body;
         
         const userExists = await User.findOne({ email });
         if (userExists) {
@@ -80,12 +80,18 @@ const registerUser = async (req, res) => {
             return res.render("register", { message: "Invalid branch name" });
         }
 
+        if( !location ){
+            console.log('location needed');
+        }
+
+        
         
         const user = await User.create({
             name,
             email,
             password,
             branchcode: Number(branchcode),
+            location : location,
             branch: branch._id   
         });
 
