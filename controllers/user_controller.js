@@ -2,12 +2,12 @@ const User = require('../models/user_model');
 const Branch = require('../models/branch_model');
 const Order = require('../models/order_model');
 
-const {loginAdmin, registerAdmin} = require('./admin_controller');
-const {loginPartner, registerPartner} = require('./partner_controller');
+const { loginAdmin, registerAdmin } = require('./admin_controller');
+const { loginPartner, registerPartner } = require('./partner_controller');
 
 const bcrypt = require('bcryptjs');
 
-const generateAccessAndRefereshTokens = async(userId) =>{
+const generateAccessAndRefereshTokens = async (userId) => {
     try {
         const user = await User.findById(userId)
         const accessToken = user.generateAccessToken()
@@ -16,7 +16,7 @@ const generateAccessAndRefereshTokens = async(userId) =>{
         user.refreshToken = refreshToken
         await user.save({ validateBeforeSave: false })
 
-        return {accessToken, refreshToken}
+        return { accessToken, refreshToken }
 
 
     } catch (error) {
@@ -33,13 +33,13 @@ const loginUser = async (req, res) => {
         return res.status(400).json({ message: "All fields are required" });
     }
 
-    const user = await User.findOne({ email:email });
+    const user = await User.findOne({ email: email });
     if (!user) {
         console.log("user not found");
         return res.render("login");
     }
 
-    
+
 
     const isPasswordCorrect = await bcrypt.compare(password, user.password);
     if (!isPasswordCorrect) {
@@ -47,61 +47,65 @@ const loginUser = async (req, res) => {
         return res.render("login", { message: "Invalid email or password" });
     }
 
-      const token = await generateAccessAndRefereshTokens(user._id);
+    const token = await generateAccessAndRefereshTokens(user._id);
 
-      const options = {
+    const options = {
         httpOnly: true,
         secure: false, // localhost
         sameSite: "lax"
-      };
+    };
 
-      res.cookie("accessToken", token, options);
+    res.cookie("accessToken", token, options);
 
     console.log("reached here");
-    
-    
-    res.render('home',{email : email, name : user.name, bcode: user.branchcode});
+
+
+    res.render('home', { email: email, name: user.name, bcode: user.branchcode });
 
 }
 
 const registerUser = async (req, res) => {
     try {
-        const { name, email, password, branchcode, location, branchname} = req.body;
-        
+        const { name, email, password, branchcode, placename, branchname, lat, lng } = req.body;
+
         const userExists = await User.findOne({ email });
         if (userExists) {
             console.log('user exists')
-            return res.render("register", { message: "User already exists" });
+            return res.render("register", { rolla: 'user' });
         }
 
         
+
         const branch = await Branch.findOne({ name: branchname });
         if (!branch) {
-            return res.render("register", { message: "Invalid branch name" });
+            return res.render("register",{rolla: 'user'});
         }
 
-        if( !location ){
-            console.log('location needed');
+        if (!placename || !lat || !lng) {
+            return res.render("register", {rolla : 'user'});
         }
 
-        
-        
+
+        const placedetail = { lat: lat, lng: lng, placename: placename };
+
         const user = await User.create({
             name,
             email,
             password,
             branchcode: Number(branchcode),
-            location : location,
-            branch: branch._id   
+            location: placedetail,
+            branch: branch._id
         });
 
+        console.log('i am at 4');
+
         if (!user) {
-            return res.render("register", { message: "Invalid user data" });
+            return res.render("register", { rolla: 'user' });
         }
 
         console.log('user created successfully');
 
-        res.render('home',{email: email,name: user.name, bcode: user.branchcode});
+        res.render('home', { email: email, name: user.name, bcode: user.branchcode });
 
     } catch (error) {
         console.error(error);
@@ -111,42 +115,42 @@ const registerUser = async (req, res) => {
 
 const create_order = async (req, res, next) => {
 
-     
 
-     console.log('i am inside the create order function');
 
-     const {email} = req.params;
+    console.log('i am inside the create order function');
 
-     const user = await User.findOne({email: email});
+    const { email } = req.params;
 
-     if( !user){
+    const user = await User.findOne({ email: email });
+
+    if (!user) {
         console.log('user not found for order');
         res.render('login');
-     }
+    }
 
-     const order = await Order.create({
-         user : user._id
-     })
+    const order = await Order.create({
+        user: user._id
+    })
 
-     console.log('order placed and your order is : ', order);
-     res.render('home',{email: email,name: user.name, bcode: user.branchcode});
+    console.log('order placed and your order is : ', order);
+    res.render('home', { email: email, name: user.name, bcode: user.branchcode });
 
 
 }
 
-const show_map = async(req, res, next) => {
-     
-     const {email} = req.params;
+const show_map = async (req, res, next) => {
 
-     const user = await User.findOne({email: email});
+    const { email } = req.params;
 
-     if( !user){
+    const user = await User.findOne({ email: email });
+
+    if (!user) {
         console.log('user not found for order');
         res.render('login');
-     }
+    }
 
-     res.render('map_for_user',{email: email, name: user.name, bcode: user.branchcode});
+    res.render('map_for_user', { email: email, name: user.name, bcode: user.branchcode });
 }
 
 
-module.exports = { loginUser: loginUser, registerUser: registerUser,create_order: create_order, show_map: show_map};
+module.exports = { loginUser: loginUser, registerUser: registerUser, create_order: create_order, show_map: show_map };

@@ -50,37 +50,42 @@ const loginAdmin = async (req, res) => {
 
 const registerAdmin = async (req, res) => {
     try {
-        const { name, email, password, branchcode, branchname } = req.body;
+        const { name, email, password, branchcode,placename, branchname, lat, lng } = req.body;
         
         const adminExists = await Admin.findOne({ email });
         if (adminExists) {
             console.log('admin exists')
-            return res.render("register", { message: "admin already exists" });
+            return res.render("register", {rolla : 'admin'});
         }
 
         
         const branch = await Branch.findOne({ name: branchname });
         if (!branch) {
-            return res.render("register",{rolla : null});
+            return res.render("register",{rolla : admin});
         }
 
+        if( !placename || !lat || !lng){
+            return res.render("register", {rolla : 'user'});
+        }
+
+        const placedetail = {lat : lat, lng: lng, placename : placename};
         
         const admin = await Admin.create({
-            name,
-            email,
-            password,
+            name: name,
+            email : email,
+            password: password,
             branchcode: Number(branchcode),
-            location,
+            location: placedetail,
             branch: branch._id   
         });
 
         if (!admin) {
-            return res.render("register",{rolla : null});
+            return res.render("register",{rolla : admin});
         }
 
         console.log('admin created successfully');
 
-        return res.redirect('/admin/home');
+        return res.render('admin_home',{name: admin.name, email: admin.email,bcode: branchcode });
 
     } catch (error) {
         console.error(error);

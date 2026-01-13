@@ -66,7 +66,7 @@ const loginPartner = async (req, res) => {
 
 const registerPartner = async (req, res) => {
     try {
-        const { name, email, password, branchcode, location, branchname } = req.body;
+        const { name, email, password, branchcode, placename, branchname, lat, lng } = req.body;
 
         const partnerExists = await Partner.findOne({ email: email });
         if (partnerExists) {
@@ -81,13 +81,18 @@ const registerPartner = async (req, res) => {
             res.render("register", { rolla: 'partner' });
         }
 
+        if( !placename || !lat || !lng){
+             return res.render("register", {rolla : 'partner'});
+        }
+
+        const placedetail = { lat: lat, lng : lng, placename: placename};
 
         const partner = await Partner.create({
             name,
             email,
             password,
             branchcode: Number(branchcode),
-            location : location,
+            location : placedetail,
             branch: branch._id
         });
 

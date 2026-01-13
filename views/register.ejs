@@ -1,21 +1,32 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
 </head>
+
 <body>
     <h1>register</h1>
 
-    <form action = '/<%= rolla%>/register' method = 'POST'>
-        <input type = 'text' name = 'name' placeholder="name">
-        <input type = 'text' name = 'email'placeholder='email'>
-        <input type = 'text' name = 'password' placeholder="password">
-        <input type = 'number' name = 'branchcode' placeholder="branchcode">
-        <input type = 'text' name = 'branchname' placeholder="branch name">
-        <input type = 'text' name = 'location' placeholder="your location">
-        <button type = 'submit'>register</button>
+    <form action='/<%= rolla%>/register' method='POST'>
+        <input type='text' name='name' placeholder="name">
+        <input type='text' name='email' placeholder='email'>
+        <input type='text' name='password' placeholder="password">
+        <input type='number' name='branchcode' placeholder="branchcode">
+        <input type='text' name='branchname' placeholder="branch name">
+        <input type='text' id='placename' name ='placename' placeholder="your location">
+        <input id="lat" name="lat" readonly>
+        <input id="lng" name="lng" readonly>
+        <button type="button" onclick="locatePlace()">Locate</button>
+        <button type="submit">Register</button>
     </form>
+
+    <div id="map" style="height: 400px;"></div>
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+    <script src='/register_script.js'></script>
 </body>
+
 </html>
