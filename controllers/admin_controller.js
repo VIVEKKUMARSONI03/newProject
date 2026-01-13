@@ -44,13 +44,13 @@ const loginAdmin = async (req, res) => {
 
     console.log("reached here");
 
-    res.render('admin_home',{name:admin.name, email:email, loc: admin.location, orders:{}});
+    res.render('admin_home',{name:admin.name, email:email, bcode: admin.branchcode, orders:{}});
 
 }
 
 const registerAdmin = async (req, res) => {
     try {
-        const { name, email, password, location, branchname } = req.body;
+        const { name, email, password, branchcode, branchname } = req.body;
         
         const adminExists = await Admin.findOne({ email });
         if (adminExists) {
@@ -69,7 +69,7 @@ const registerAdmin = async (req, res) => {
             name,
             email,
             password,
-            location: Number(location),
+            branchcode: Number(branchcode),
             branch: branch._id   
         });
 

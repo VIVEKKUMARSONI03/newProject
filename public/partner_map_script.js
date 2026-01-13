@@ -1,4 +1,4 @@
-const loc = document.getElementById('loc');
+const bcode = document.getElementById('bcode');
 const nm = document.getElementById('name');
 const socket = io();
 
@@ -33,8 +33,8 @@ let routeLine = null;
 
 socket.on('mfu_vb_fp', (msg) => {
 
-    const { u_latitude, u_longitude, u_location, u_name } = msg;
-    if (u_location === loc.textContent) {
+    const { u_latitude, u_longitude, u_branchcode, u_name } = msg;
+    if (u_branchcode === loc.textContent) {
         console.log(`partner ${nm.textContent} is printing`, msg);
     }
 
@@ -56,10 +56,10 @@ const setloc = () => {
                 partner.lat = latitude; partner.lng = longitude;
                 partnerMarker.setLatLng([partner.lat, partner.lng]);
 
-                socket.emit('msg_from_partner', { p_latitude: latitude, p_longitude: longitude, p_location: loc.textContent, p_name: nm.textContent });
+                socket.emit('msg_from_partner', { p_latitude: latitude, p_longitude: longitude, p_branchcode: bcode.textContent, p_name: nm.textContent });
             },
             (error) => {
-                console.error("Error getting location:", error.message);
+                console.error("Error getting branchcode:", error.message);
             }
         );
     } else {

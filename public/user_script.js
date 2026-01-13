@@ -1,12 +1,12 @@
-const loc = document.getElementById('uloc');
+const bcode = document.getElementById('bcode');
 const nm = document.getElementById('name');
 const socket = io();
 
 socket.emit('msg_from_user', 'i am a user');
 
 socket.on('mfp_vb_fu', (msg) => {
-    const { p_latitude, p_longitude, p_location, p_name } = msg;
-    if (p_location === loc.textContent) {
+    const { p_latitude, p_longitude, p_branchcode, p_name } = msg;
+    if (p_branchcode === bcode.textContent) {
         console.log(`user ${nm.textContent} is printing`, msg);
     }
 })
@@ -22,10 +22,10 @@ const setloc = () => {
                 user.lat = latitude;
                 user.lng = longitude;
 
-                socket.emit('msg_from_user', { u_latitude: latitude, u_longitude: longitude, u_location: loc.textContent, u_name: nm.textContent });
+                socket.emit('msg_from_user', { u_latitude: latitude, u_longitude: longitude, u_branchcode: bcode.textContent, u_name: nm.textContent });
             },
             (error) => {
-                console.error("Error getting location:", error.message);
+                console.error("Error getting branchcode:", error.message);
             }
         );
     } else {

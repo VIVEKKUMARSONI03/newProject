@@ -60,13 +60,13 @@ const loginPartner = async (req, res) => {
     console.log("reached here");
 
 
-    res.render('partner_home', { email: email, name: partner.name, loc: partner.location });
+    res.render('partner_home', { email: email, name: partner.name, bcode: partner.branchcode });
 
 }
 
 const registerPartner = async (req, res) => {
     try {
-        const { name, email, password, location, branchname } = req.body;
+        const { name, email, password, branchcode, branchname } = req.body;
 
         const partnerExists = await Partner.findOne({ email: email });
         if (partnerExists) {
@@ -86,7 +86,7 @@ const registerPartner = async (req, res) => {
             name,
             email,
             password,
-            location: Number(location),
+            branchcode: Number(branchcode),
             branch: branch._id
         });
 
@@ -133,7 +133,7 @@ const get_list = async (req, res) => {
             const user = await User.findById(order.user);
             
 
-            if(user.location === partner.location){
+            if(user.branchcode === partner.branchcode){
                 list.push(order);
             }
         }
@@ -167,7 +167,7 @@ const show_map  = async(req, res, next) => {
         res.status(404).json({message: 'partner with this email not found'});
     }
 
-    res.render('map_for_partner',{email : email, name: partner.name, loc: partner.location});
+    res.render('map_for_partner',{email : email, name: partner.name, bcode: partner.branchcode});
 }
 
 module.exports = { loginPartner: loginPartner, registerPartner: registerPartner, get_list: get_list, show_map: show_map };

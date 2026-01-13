@@ -14,17 +14,30 @@
     </h3>
     <h3 id = 'email'>email :<%= email %>
     </h3>
-    <h3 id = 'aloc'>loc : <%= loc %></h3>
+    <h3 id = 'bcode'>bcode : <%= bcode %></h3>
 
     <form action='/admin/add_branch' method='POST'>
         <input type='text' name='name' placeholder='branch name'>
-        <input type='number' name='location' placeholder='location'>
+        <input type='number' name='branchcode' placeholder='branchcode'>
         <input type='number' name='contactInfo' placeholder='contact number'>
         <button type='submit'>submin</button>
     </form>
 
     <form action='/admin/<%= email %>/get_orders' method='POST'>
         <button type='submit'>get orders list</button>
+    </form>
+
+    <form actoin = '/admin/<%= email %>/get_users' method = 'POST'>
+         <button type = 'submit'>get users list</button>
+    </form>
+
+    <form action = '/admin/<%= email %>/get_partners' method = 'POST'>
+          <button type = 'submit'>get partners list</button>
+    </form>
+
+    <form acton = '/admin/<%= email %>/add_new_dlvry_place' method = 'POST'>
+             
+            <button type = 'submit'>add</button>
     </form>
 
     <script src="/socket.io/socket.io.js"></script>

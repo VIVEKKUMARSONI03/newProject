@@ -18,7 +18,7 @@ const userSchema = new mongoose.Schema({
         required: true
     },
 
-    location: {
+    branchcode: {
         type: Number,
         required: true
     },

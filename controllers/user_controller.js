@@ -60,13 +60,13 @@ const loginUser = async (req, res) => {
     console.log("reached here");
     
     
-    res.render('home',{email : email, name : user.name, loc: user.location});
+    res.render('home',{email : email, name : user.name, bcode: user.branchcode});
 
 }
 
 const registerUser = async (req, res) => {
     try {
-        const { name, email, password, location, branchname} = req.body;
+        const { name, email, password, branchcode, branchname} = req.body;
         
         const userExists = await User.findOne({ email });
         if (userExists) {
@@ -85,7 +85,7 @@ const registerUser = async (req, res) => {
             name,
             email,
             password,
-            location: Number(location),
+            branchcode: Number(branchcode),
             branch: branch._id   
         });
 
@@ -95,7 +95,7 @@ const registerUser = async (req, res) => {
 
         console.log('user created successfully');
 
-        res.render('home',{email: email,name: user.name, loc: user.location});
+        res.render('home',{email: email,name: user.name, bcode: user.branchcode});
 
     } catch (error) {
         console.error(error);
@@ -123,7 +123,7 @@ const create_order = async (req, res, next) => {
      })
 
      console.log('order placed and your order is : ', order);
-     res.render('home',{email: email,name: user.name, loc : user.location});
+     res.render('home',{email: email,name: user.name, bcode: user.branchcode});
 
 
 }
@@ -139,7 +139,7 @@ const show_map = async(req, res, next) => {
         res.render('login');
      }
 
-     res.render('map_for_user',{email: email, name: user.name, loc: user.location});
+     res.render('map_for_user',{email: email, name: user.name, bcode: user.branchcode});
 }
 
 

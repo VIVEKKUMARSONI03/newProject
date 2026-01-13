@@ -1,4 +1,4 @@
-const loc = document.getElementById('aloc');
+const bcode = document.getElementById('bcode');
 const nm = ducument.getElementById('name');
 const socket = io();
 
@@ -21,11 +21,11 @@ const setloc = () => {
                 // console.log("Latitude:", latitude);
                 // console.log("Longitude:", longitude);
 
-                //socket.emit('msg_from_admin', `admin Loc : latitude: ${latitude}, longitude : ${longitude}`);
-                socket.emit({latitude:latitude, longitude: longitude, location: loc.textContent, name: nm.textContent});
+                //socket.emit('msg_from_admin', `admin bcode : latitude: ${latitude}, longitude : ${longitude}`);
+                socket.emit({latitude:latitude, longitude: longitude, branchcode: bcode.textContent, name: nm.textContent});
             },
             (error) => {
-                console.error("Error getting location:", error.message);
+                console.error("Error getting branchcode:", error.message);
             }
         );
     } else {

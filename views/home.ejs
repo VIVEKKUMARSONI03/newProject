@@ -10,12 +10,12 @@
     <h2>welcome to user home</h2>
     <h3 id = 'name'>name: <%= name %></h3>
     <h3 id = 'email'>email: <%= email %></h3>
-    <h3 id = 'uloc'>loc : <%= loc %></h3>
+    <h3 id = 'bcode'>bcode : <%= bcode %></h3>
 
     <h3> make an order </h3>
 
     <form action = '/user/order/<%= email %>' method = 'POST'>
-        <input type = 'text' name = 'location' placeholder = 'where you want the cylinder'>
+        <input type = 'text' name = 'branchcode' placeholder = 'where you want the cylinder'>
         <button  >payment</button>
         <button type = 'submit'>place</button>
     </form>
