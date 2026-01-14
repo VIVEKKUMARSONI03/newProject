@@ -1,37 +1,47 @@
 const bcode = document.getElementById('bcode');
 const nm = document.getElementById('name');
+const t = document.getElementById('lat');
+const g = document.getElementById('lng');
 const socket = io();
 
 socket.emit('msg_from_user', 'i am a user');
 
-let user = { lat: 21.24366, lng: 81.63560};
+const extractCoordinate = (element) => {
+    const text = element.textContent;
+    // Extract the number after the colon
+    const match = text.split(':').pop().trim();
+    const num = parseFloat(match);
+    return isNaN(num) ? 0 : num;
+};
+
+let user = {
+    lat: extractCoordinate(t),
+    lng: extractCoordinate(g)
+};
+
 let partner = { lat: 21.2379, lng: 81.6337 };
 
 const map = L.map("map").setView([user.lat, user.lng], 14);
+
+const gasIcon = L.icon({
+    iconUrl: "https://res.cloudinary.com/dftacepnw/image/upload/v1758679016/Pngtree_gas_cylinder_icon_vector_11080127_m5jqyw.png",
+    iconSize: [26, 26],
+    iconAnchor: [20, 40],
+    popupAnchor: [0, -40]
+});
 
 L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", {
     maxZoom: 19,
 }).addTo(map);
 
-const gasIcon = L.icon({
-  iconUrl: "https://res.cloudinary.com/dftacepnw/image/upload/v1758679016/Pngtree_gas_cylinder_icon_vector_11080127_m5jqyw.png",   
-  iconSize: [26, 26],       
-  iconAnchor: [20, 40],     
-  popupAnchor: [0, -40]     
-});
+let userMarker = L.marker([user.lat, user.lng]).addTo(map).bindPopup("User");
 
-
-let userMarker = L.marker([user.lat, user.lng])
-    .addTo(map)
-    .bindPopup("User");
-
-let partnerMarker = L.marker([partner.lat, partner.lng], { icon: gasIcon })
-    .addTo(map)
-    .bindPopup("Delivery Partner");
+let partnerMarker = L.marker([partner.lat, partner.lng], { icon: gasIcon }).addTo(map).bindPopup("Delivery Partner");
 
 let routeLine = null;
 
 socket.on('mfp_vb_fu', (msg) => {
+
     const { p_latitude, p_longitude, p_branchcode, p_name } = msg;
     if (p_branchcode === bcode.textContent) {
         console.log(`user ${nm.textContent} is printing`, msg);
@@ -40,7 +50,6 @@ socket.on('mfp_vb_fu', (msg) => {
         partnerMarker.setLatLng([partner.lat, partner.lng]);
 
         drawRoute(user, partner);
-
     }
 })
 
@@ -52,10 +61,10 @@ const setloc = () => {
                 const latitude = position.coords.latitude;
                 const longitude = position.coords.longitude;
 
-                user.lat = latitude;
-                user.lng = longitude;
-                userMarker.setLatLng([user.lat, user.lng]);
-                socket.emit('msg_from_user', { u_latitude: latitude, u_longitude: longitude, u_branchcode: bcode.textContent, u_name: nm.textContent });
+                //user.lat = latitude; user.lng = longitude;
+                //user.lat = parseFloat(t.textContent); user.lng = parseFloat(g.textContent);
+                //userMarker.setLatLng([user.lat, user.lng]);
+                socket.emit('msg_from_user', { u_latitude: user.lat, u_longitude: user.lng, u_branchcode: bcode.textContent, u_name: nm.textContent });
 
             },
             (error) => {

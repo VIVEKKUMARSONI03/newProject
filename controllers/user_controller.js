@@ -149,7 +149,7 @@ const show_map = async (req, res, next) => {
         res.render('login');
     }
 
-    res.render('map_for_user', { email: email, name: user.name, bcode: user.branchcode });
+    res.render('map_for_user', { email: email, name: user.name, bcode: user.branchcode, lat: user.location.lat, lng: user.location.lng, placename: user.location.placename });
 }
 
 
