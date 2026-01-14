@@ -36,8 +36,7 @@ app.use('/',(req,res, next)=>{
     res.render('base_home');
 });
 
-
-const uri = "mongodb+srv://vermachandra896:chandra1234@cluster0.hpioxnn.mongodb.net/project";
+const uri = process.env.MONGODB_URI;
 
 io.on('connection', (socket) => {
   console.log('guest online');
@@ -55,10 +54,10 @@ io.on('connection', (socket) => {
   });
 });
 
-connectDB(uri).then(() => {
+connectDB(`${uri}/${process.env.DB_NAME}`).then(() => {
 
-    server.listen(3000, () => {
-        console.log("server is listening at 3000");
+    server.listen(process.env.PORT, () => {
+        console.log(`server is listening at ${process.env.PORT}`);
     })
 
 }).catch( (err) => {
