@@ -129,7 +129,9 @@ const create_order = async (req, res, next) => {
     }
 
     const order = await Order.create({
-        user: user._id
+        user: user._id,
+        name: user.name,
+        location: user.location,
     })
 
     console.log('order placed and your order is : ', order);
