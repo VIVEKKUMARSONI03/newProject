@@ -14,7 +14,7 @@ partner_router.post('/login',loginPartner);
 
 partner_router.post('/register', registerPartner);
 
-partner_router.post('/get_list',get_list);
+partner_router.post('/:email/get_list',get_list);
 
 partner_router.post('/open_map/:email',show_map);
 

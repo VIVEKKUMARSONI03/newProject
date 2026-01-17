@@ -81,18 +81,18 @@ const registerPartner = async (req, res) => {
             res.render("register", { rolla: 'partner' });
         }
 
-        if( !placename || !lat || !lng){
-             return res.render("register", {rolla : 'partner'});
+        if (!placename || !lat || !lng) {
+            return res.render("register", { rolla: 'partner' });
         }
 
-        const placedetail = { lat: lat, lng : lng, placename: placename};
+        const placedetail = { lat: lat, lng: lng, placename: placename };
 
         const partner = await Partner.create({
             name,
             email,
             password,
             branchcode: Number(branchcode),
-            location : placedetail,
+            location: placedetail,
             branch: branch._id
         });
 
@@ -113,33 +113,45 @@ const registerPartner = async (req, res) => {
 
 const get_list = async (req, res) => {
     try {
-        const token = req.cookies?.accessToken;
+        // const token = req.cookies?.accessToken;
 
-        if (!token || typeof token !== "string") {
-            return res.status(401).json({ message: "Invalid access token" });
-        }
+        // if (!token || typeof token !== "string") {
+        //     return res.status(401).json({ message: "Invalid access token" });
+        // }
 
-        const decoded = jwt.verify(
-            token,
-            process.env.ACCESS_TOKEN_SECRET
-        );
+        // const decoded = jwt.verify(
+        //     token,
+        //     process.env.ACCESS_TOKEN_SECRET
+        // );
 
-        const partner = await Partner.findById(decoded._id)
-            .select("-password");
+        // const partner = await Partner.findById(decoded._id)
+        //     .select("-password");
 
         // return res.status(200).json({ partner });
 
+        const { email } = req.params;
+
+        const partner = await Partner.findOne({ email: email });
+
+        if (!partner) {
+            console.log('partner not found');
+        }
+
         const orders = await Order.find();
 
-        // console.log(orders);
+        // console.log(orders[0].user);
 
         const list = [];
 
         for (const order of orders) {
             const user = await User.findById(order.user);
-            
 
-            if(user.branchcode === partner.branchcode){
+            if (!user) continue;
+
+            if (user.branchcode === partner.branchcode) {
+                list.push(order);
+            }
+            if (user.branchcode === partner.branchcode) {
                 list.push(order);
             }
         }
@@ -148,7 +160,7 @@ const get_list = async (req, res) => {
 
         console.log(partner);
 
-        res.render('orders_list',{orders: list});
+        res.render('orders_list', { orders: list });
 
         return;
     } catch (error) {
@@ -162,18 +174,18 @@ const get_list = async (req, res) => {
     }
 };
 
-const show_map  = async(req, res, next) => {
+const show_map = async (req, res, next) => {
 
-    const {email} = req.params;
+    const { email } = req.params;
 
-    const partner = await Partner.findOne({email: email});
+    const partner = await Partner.findOne({ email: email });
 
-    if( !partner){
+    if (!partner) {
         console.log('partner with this email not found');
-        res.status(404).json({message: 'partner with this email not found'});
+        res.status(404).json({ message: 'partner with this email not found' });
     }
 
-    res.render('map_for_partner',{email : email, name: partner.name, bcode: partner.branchcode});
+    res.render('map_for_partner', { email: email, name: partner.name, bcode: partner.branchcode });
 }
 
 module.exports = { loginPartner: loginPartner, registerPartner: registerPartner, get_list: get_list, show_map: show_map };
