@@ -39,6 +39,11 @@ socket.on('mfu_vb_fp', (msg) => {
     }
 })
 
+socket.on('s_conf_u',(msg)=>{
+    console.log('user ne bheja tha partner ko mil gaya');
+    window.location.href = '/partner/arrived';
+})
+
 const setloc = () => {
 
     if ("geolocation" in navigator) {
@@ -56,7 +61,7 @@ const setloc = () => {
                 if (pointA.distanceTo(pointB) <= 5) {
                     console.log('p',pointA.distanceTo(pointB) );
                     socket.emit('p_to_X',"partner_bola");
-                    
+                    window.location.href = '/partner/arrived';
                 }
                 else{
                     console.log('p',pointA.distanceTo(pointB) );

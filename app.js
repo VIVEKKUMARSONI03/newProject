@@ -52,11 +52,13 @@ io.on('connection', (socket) => {
   });
 
   socket.on('u_to_X',(msg) => {
-       
+    console.log("user ne bhija hai ",msg);
+       socket.broadcast.emit('s_conf_u',msg);
   });
 
   socket.on('p_to_X',(msg) => {
-       
+       console.log('partner ne bheja hai ,',msg);
+       socket.broadcast.emit('s_conf_p',msg);
   });
 
   socket.on('disconnect', () => {

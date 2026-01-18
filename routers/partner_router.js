@@ -18,4 +18,8 @@ partner_router.post('/:email/get_list',get_list);
 
 partner_router.post('/open_map/:email',show_map);
 
+partner_router.get('/arrived', (req, res,next) => {
+    res.render('arrived_for_partner');
+})
+
 module.exports = {partner_router : partner_router };

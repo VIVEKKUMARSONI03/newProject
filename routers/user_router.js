@@ -27,5 +27,8 @@ project_router.post('/manage_orders/:email',(req, res, next) => {
 
 project_router.post('/cancel/:email',cancel);
 
+project_router.get('/arrived', (req, res, next) => {
+    res.render('arrived_for_user');
+})
 
 module.exports = {project_router : project_router };
