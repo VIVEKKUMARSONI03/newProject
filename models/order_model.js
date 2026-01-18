@@ -17,6 +17,15 @@ const orderSchema = mongoose.Schema({
         type: String,
         default: 'undelivered',
         required: true,
+    },
+    payment_mode:{
+        type : String,
+        required: true
+    },
+    payment: {
+        type: Boolean,
+        default : false,
+        required: true
     }
 
 }, {

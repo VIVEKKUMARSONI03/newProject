@@ -60,7 +60,7 @@ const loginUser = async (req, res) => {
     console.log("reached here");
 
 
-    res.render('home', { email: email, name: user.name, bcode: user.branchcode });
+    res.render('home', { email: email, name: user.name, bcode: user.branchcode, has_order: user.has_order });
 
 }
 
@@ -105,7 +105,7 @@ const registerUser = async (req, res) => {
 
         console.log('user created successfully');
 
-        res.render('home', { email: email, name: user.name, bcode: user.branchcode });
+        res.render('home', { email: email, name: user.name, bcode: user.branchcode, has_order: user.has_order });
 
     } catch (error) {
         console.error(error);
@@ -115,28 +115,39 @@ const registerUser = async (req, res) => {
 
 const create_order = async (req, res, next) => {
 
+    const {payment_mode}  = req.body;
 
-
-    console.log('i am inside the create order function');
+    
 
     const { email } = req.params;
 
-    const user = await User.findOne({ email: email });
+    const user = await User.findOne({ email: email }); 
 
     if (!user) {
         console.log('user not found for order');
         res.render('login');
     }
 
+     if( user.has_order.length >= 1){
+        res.send({message : 'you already have an order'});
+        return;
+    }
+
     const order = await Order.create({
         user: user._id,
         name: user.name,
         location: user.location,
+        payment_mode: payment_mode
     })
 
-    console.log('order placed and your order is : ', order);
-    res.render('home', { email: email, name: user.name, bcode: user.branchcode });
+    const updateduser = await User.findOneAndUpdate(
+    { email: email },
+    { $push: { has_order: order._id } },
+    { new: true }
+    );
 
+    console.log('order placed and your order is : ', order._id);
+    res.render('home', { email: email, name: user.name, bcode: user.branchcode, has_order: updateduser.has_order});
 
 }
 
@@ -154,5 +165,23 @@ const show_map = async (req, res, next) => {
     res.render('map_for_user', { email: email, name: user.name, bcode: user.branchcode, lat: user.location.lat, lng: user.location.lng, placename: user.location.placename });
 }
 
+const cancel = async (req, res, next) => {
 
-module.exports = { loginUser: loginUser, registerUser: registerUser, create_order: create_order, show_map: show_map };
+     const {email} = req.params;
+
+     const user = await User.findOne({email: email});
+
+     const order = await Order.findOneAndDelete({user: user._id});
+
+     const updated_user = await User.findOneAndUpdate(
+        {email : email},
+        { $pop :{has_order:1}},
+        {new:true}
+     )
+
+     console.log('order cancelled',order._id);
+
+     res.render('home', { email: email, name: user.name, bcode: user.branchcode, has_order: updated_user.has_order});
+}
+
+module.exports = { loginUser: loginUser, registerUser: registerUser, create_order: create_order, show_map: show_map, cancel: cancel };

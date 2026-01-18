@@ -33,9 +33,15 @@ const userSchema = new mongoose.Schema({
         ref: 'Branch',
         required: true
     },
+
     refreshToken: {
         type: String
-    }
+    },
+
+    has_order:[{
+        type: mongoose.Schema.ObjectId,
+        ref: 'Order'
+    }]
 })
 
 userSchema.pre("save", async function () {

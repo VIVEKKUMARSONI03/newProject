@@ -183,9 +183,8 @@ const show_map = async (req, res, next) => {
     if (!partner) {
         console.log('partner with this email not found');
         res.status(404).json({ message: 'partner with this email not found' });
-    }
-
+    }                              
     res.render('map_for_partner', { email: email, name: partner.name, bcode: partner.branchcode });
-}
+} 
 
 module.exports = { loginPartner: loginPartner, registerPartner: registerPartner, get_list: get_list, show_map: show_map };
