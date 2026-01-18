@@ -184,4 +184,9 @@ const cancel = async (req, res, next) => {
      res.render('home', { email: email, name: user.name, bcode: user.branchcode, has_order: updated_user.has_order});
 }
 
-module.exports = { loginUser: loginUser, registerUser: registerUser, create_order: create_order, show_map: show_map, cancel: cancel };
+const uarrived = async(req, res, next)=> {
+     
+     res.render('arrived');
+}
+
+module.exports = { loginUser: loginUser, registerUser: registerUser, create_order: create_order, show_map: show_map, cancel: cancel, uarrived: uarrived };

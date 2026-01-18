@@ -49,8 +49,19 @@ const setloc = () => {
 
                 partner.lat = latitude; partner.lng = longitude;
                 partnerMarker.setLatLng([partner.lat, partner.lng]);
+                
+                const pointA = L.latLng(user.lat, user.lng);
+                const pointB = L.latLng(partner.lat, partner.lng);
 
-                socket.emit('msg_from_partner', { p_latitude: partner.lat, p_longitude: partner.lng, p_branchcode: bcode.textContent, p_name: nm.textContent });
+                if (pointA.distanceTo(pointB) <= 5) {
+                    console.log('p',pointA.distanceTo(pointB) );
+                    socket.emit('p_to_X',"partner_bola");
+                    
+                }
+                else{
+                    console.log('p',pointA.distanceTo(pointB) );
+                    socket.emit('msg_from_partner', { p_latitude: partner.lat, p_longitude: partner.lng, p_branchcode: bcode.textContent, p_name: nm.textContent });
+                }
             },
             (error) => {
                 console.error("Error getting branchcode:", error.message);

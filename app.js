@@ -16,6 +16,8 @@ const {admin_router} = require('./routers/admin_router');
 const {partner_router} = require('./routers/partner_router');
 const {common_router} = require('./routers/comman_router');
 const { findOneAndUpdate } = require('./models/user_model');
+const {uarrived} = require('./controllers/user_controller');
+const {parrived} = require('./controllers/partner_controller');
 
 require('dotenv').config(); 
 app.use(cookieParser()); 
@@ -47,7 +49,15 @@ io.on('connection', (socket) => {
 
   socket.on('msg_from_partner',(msg) => {
     socket.broadcast.emit('mfp_vb_fu',msg);
-  })
+  });
+
+  socket.on('u_to_X',(msg) => {
+       
+  });
+
+  socket.on('p_to_X',(msg) => {
+       
+  });
 
   socket.on('disconnect', () => {
     console.log('guest offline');

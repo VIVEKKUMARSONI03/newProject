@@ -187,4 +187,9 @@ const show_map = async (req, res, next) => {
     res.render('map_for_partner', { email: email, name: partner.name, bcode: partner.branchcode });
 } 
 
-module.exports = { loginPartner: loginPartner, registerPartner: registerPartner, get_list: get_list, show_map: show_map };
+const parrived = async(req, res, next)=> {
+     
+     res.render('arrived');
+}
+
+module.exports = { loginPartner: loginPartner, registerPartner: registerPartner, get_list: get_list, show_map: show_map, parrived: parrived };

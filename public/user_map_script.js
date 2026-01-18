@@ -64,7 +64,21 @@ const setloc = () => {
                 //user.lat = latitude; user.lng = longitude;
                 //user.lat = parseFloat(t.textContent); user.lng = parseFloat(g.textContent);
                 //userMarker.setLatLng([user.lat, user.lng]);
-                socket.emit('msg_from_user', { u_latitude: user.lat, u_longitude: user.lng, u_branchcode: bcode.textContent, u_name: nm.textContent });
+
+                const pointA = L.latLng(user.lat, user.lng);
+                const pointB = L.latLng(partner.lat, partner.lng);
+
+                if (pointA.distanceTo(pointB) <= 5) {
+                    console.log('u',pointA.distanceTo(pointB) );
+                    socket.emit('u_to_X',"band_karo_bhai");
+                    
+                }
+                else{
+                    console.log('u',pointA.distanceTo(pointB) );
+                    socket.emit('msg_from_user', { u_latitude: user.lat, u_longitude: user.lng, u_branchcode: bcode.textContent, u_name: nm.textContent });
+                }
+
+                
 
             },
             (error) => {
