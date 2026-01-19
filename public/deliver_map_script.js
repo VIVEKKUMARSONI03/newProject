@@ -1,10 +1,9 @@
-const bcode = document.getElementById('bcode');
-const nm = document.getElementById('name');
 const t = document.getElementById('lat');
 const g = document.getElementById('lng');
+const bcode = document.getElementById('bcode');
+const nm = document.getElementById('nm');
+const cover = document.getElementById('cover');
 const socket = io();
-
-socket.emit('msg_from_user', 'i am a user');
 
 const extractCoordinate = (element) => {
     const text = element.textContent;
@@ -19,9 +18,11 @@ let user = {
     lng: extractCoordinate(g)
 };
 
+console.log(user);
+
 let partner = { lat: 21.2379, lng: 81.6337 };
 
-const map = L.map("map").setView([user.lat, user.lng], 14);
+const map = L.map("map").setView([partner.lat, partner.lng], 14);
 
 const gasIcon = L.icon({
     iconUrl: "https://res.cloudinary.com/dftacepnw/image/upload/v1758679016/Pngtree_gas_cylinder_icon_vector_11080127_m5jqyw.png",
@@ -40,23 +41,20 @@ let partnerMarker = L.marker([partner.lat, partner.lng], { icon: gasIcon }).addT
 
 let routeLine = null;
 
-socket.on('mfp_vb_fu', (msg) => {
+// socket.on('mfu_vb_fp', (msg) => {
 
-    const { p_latitude, p_longitude, p_branchcode } = msg;
-    if (p_branchcode === bcode.textContent) {
-        console.log(`user ${nm.textContent} is printing`, msg);
+//     const { u_latitude, u_longitude, u_branchcode, u_name } = msg;
+//     if (u_branchcode === bcode.textContent) {
+//         console.log(`partner ${nm.textContent} is printing`, msg);
 
-        partner.lat = p_latitude; partner.lng = p_longitude;
-        partnerMarker.setLatLng([partner.lat, partner.lng]);
+//         user.lat = u_latitude; user.lng = u_longitude;
+//         userMarker.setLatLng([user.lat, user.lng]);
 
-        // drawRoute(user, partner);
-    }
-})
 
-socket.on('s_conf_p',(msg)=>{
-    console.log('partner ne bheja and user ko mil gaya ');
-    window.location.href = '/user/arrived';
-})
+//     }
+// })
+
+
 
 const setloc = () => {
 
@@ -66,25 +64,23 @@ const setloc = () => {
                 const latitude = position.coords.latitude;
                 const longitude = position.coords.longitude;
 
-                //user.lat = latitude; user.lng = longitude;
-                //user.lat = parseFloat(t.textContent); user.lng = parseFloat(g.textContent);
-                //userMarker.setLatLng([user.lat, user.lng]);
+                partner.lat = latitude; partner.lng = longitude;
+                partnerMarker.setLatLng([partner.lat, partner.lng]);
 
                 const pointA = L.latLng(user.lat, user.lng);
                 const pointB = L.latLng(partner.lat, partner.lng);
 
                 if (pointA.distanceTo(pointB) <= 5) {
-                    console.log('u',pointA.distanceTo(pointB) );
-                    socket.emit('u_to_X',"band_karo_bhai");
-                    window.location.href = '/user/arrived';
+                    console.log('p', pointA.distanceTo(pointB));
+                    socket.emit('p_to_X', "partner_bola");
+                    //window.location.href = '/partner/arrived';
+                    cover.style.display ='flex';
                 }
-                else{
-                    console.log('u',pointA.distanceTo(pointB) );
-                    socket.emit('msg_from_user', { u_latitude: user.lat, u_longitude: user.lng, u_branchcode: bcode.textContent });
+                else {
+                    console.log('p', pointA.distanceTo(pointB));
+                    socket.emit('msg_from_partner', { p_latitude: partner.lat, p_longitude: partner.lng, p_branchcode: bcode.textContent });
+
                 }
-
-                
-
             },
             (error) => {
                 console.error("Error getting branchcode:", error.message);
@@ -93,12 +89,17 @@ const setloc = () => {
     } else {
         console.log("Geolocation is not supported");
     }
-  drawRoute(user, partner);
+    socket.on('s_conf_u', (msg) => {
+        console.log('user ne bheja tha partner ko mil gaya');
+        //window.location.href = '/partner/arrived';
+        cover.style.display ='flex';
+    })
+    drawRoute(user, partner);
 }
 
 async function drawRoute(user, partner) {
     const url = `https://router.project-osrm.org/route/v1/driving/` +
-        `${user.lng},${user.lat};${partner.lng},${partner.lat}` +
+        `${partner.lng},${partner.lat};${user.lng},${user.lat}` +
         `?overview=full&geometries=geojson`;
 
     const res = await fetch(url);
@@ -121,4 +122,3 @@ async function drawRoute(user, partner) {
 }
 
 setInterval(setloc, 3000);
-

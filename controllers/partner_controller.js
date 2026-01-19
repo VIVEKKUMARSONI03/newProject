@@ -151,16 +151,13 @@ const get_list = async (req, res) => {
             if (user.branchcode === partner.branchcode) {
                 list.push(order);
             }
-            if (user.branchcode === partner.branchcode) {
-                list.push(order);
-            }
         }
 
-        console.log(list);
+        // console.log(list);
 
-        console.log(partner);
+        // console.log(partner);
 
-        res.render('orders_list', { orders: list });
+        res.render('orders_list', { orders: list, bcode: partner.branchcode });
 
         return;
     } catch (error) {
@@ -192,4 +189,10 @@ const parrived = async(req, res, next)=> {
      res.render('arrived');
 }
 
-module.exports = { loginPartner: loginPartner, registerPartner: registerPartner, get_list: get_list, show_map: show_map, parrived: parrived };
+const deliver = async(req, res, next) =>{
+     const{lat,lng,placename,name,bcode} = req.params;
+
+     res.render('deliver_for_specific',{lat:lat,lng:lng,placename:placename,name:name,bcode:bcode});
+}
+
+module.exports = { loginPartner: loginPartner, registerPartner: registerPartner, get_list: get_list, show_map: show_map, parrived: parrived, deliver: deliver };

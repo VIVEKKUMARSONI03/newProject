@@ -1,5 +1,6 @@
 const bcode = document.getElementById('bcode');
 const nm = document.getElementById('name');
+const cover = document.getElementById('cover');
 const socket = io();
 
 socket.emit('msg_from_partner', `i am partner ${nm.textContent}`);
@@ -28,21 +29,18 @@ let routeLine = null;
 
 socket.on('mfu_vb_fp', (msg) => {
 
-    const { u_latitude, u_longitude, u_branchcode, u_name } = msg;
+    const { u_latitude, u_longitude, u_branchcode } = msg;
     if (u_branchcode === bcode.textContent) {
         console.log(`partner ${nm.textContent} is printing`, msg);
 
         user.lat = u_latitude; user.lng = u_longitude;
         userMarker.setLatLng([user.lat, user.lng]);
 
-        drawRoute(user, partner);
+        // drawRoute(user, partner);
     }
 })
 
-socket.on('s_conf_u',(msg)=>{
-    console.log('user ne bheja tha partner ko mil gaya');
-    window.location.href = '/partner/arrived';
-})
+
 
 const setloc = () => {
 
@@ -54,18 +52,19 @@ const setloc = () => {
 
                 partner.lat = latitude; partner.lng = longitude;
                 partnerMarker.setLatLng([partner.lat, partner.lng]);
-                
+
                 const pointA = L.latLng(user.lat, user.lng);
                 const pointB = L.latLng(partner.lat, partner.lng);
 
                 if (pointA.distanceTo(pointB) <= 5) {
-                    console.log('p',pointA.distanceTo(pointB) );
-                    socket.emit('p_to_X',"partner_bola");
-                    window.location.href = '/partner/arrived';
+                    console.log('p', pointA.distanceTo(pointB));
+                    socket.emit('p_to_X', "partner_bola");
+                    //window.location.href = '/partner/arrived';
+                    cover.style.display ='flex';
                 }
-                else{
-                    console.log('p',pointA.distanceTo(pointB) );
-                    socket.emit('msg_from_partner', { p_latitude: partner.lat, p_longitude: partner.lng, p_branchcode: bcode.textContent, p_name: nm.textContent });
+                else {
+                    console.log('p', pointA.distanceTo(pointB));
+                    socket.emit('msg_from_partner', { p_latitude: partner.lat, p_longitude: partner.lng, p_branchcode: bcode.textContent });
                 }
             },
             (error) => {
@@ -76,6 +75,12 @@ const setloc = () => {
         console.log("Geolocation is not supported");
     }
 
+    socket.on('s_conf_u', (msg) => {
+        // console.log('user ne bheja tha partner ko mil gaya');
+        // window.location.href = '/partner/arrived';
+        cover.style.display ='flex';
+    })
+    drawRoute(user, partner);
 }
 
 async function drawRoute(user, partner) {

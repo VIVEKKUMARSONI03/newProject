@@ -17,6 +17,9 @@
                     User Name: <%= order.name %><br>
                     Delivery location : <%= order.location.placename %><br>
                     Mode of payment: <%= order.payment_mode %>
+                    <form action = '/partner/deliver/<%= order.location.lat %>/<%= order.location.lng %>/<%= order.location.placename %>/<%= order.name %>/<%= bcode %>' method = 'POST'>
+                        <button type = 'submit'>deliver</button>
+                    </form>
                 </li>
             <% }); %>
         </ul>

@@ -57,9 +57,13 @@ io.on('connection', (socket) => {
   });
 
   socket.on('p_to_X',(msg) => {
-       console.log('partner ne bheja hai ,',msg);
+       //console.log('partner ne bheja hai ,',msg);
        socket.broadcast.emit('s_conf_p',msg);
   });
+
+  socket.on('me',(msg) =>{
+       io.emit('scs_dlv',msg); //sending msg to every body even to the sender too
+  })
 
   socket.on('disconnect', () => {
     console.log('guest offline');

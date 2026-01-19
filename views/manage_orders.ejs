@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
+    <link rel="stylesheet" href="/user_home.css">
 </head>
 <body>
     
@@ -22,5 +23,21 @@
         <h3>you dont have any order</h3>
     <% } %>
    
+    <div id='cover' class='cover'>
+                        <div id='confirm_delivery' class='confirm_delivery'>
+                            <h3>your order is approx 5 meter away</h3>
+
+                            <form action="/user/delivered/<%= email %>" method="POST">
+                                <button type="submit" id="me" value="me">
+                                    Yes, it is me
+                                </button>
+                            </form>
+
+                            <button id='not_me' value="not_me">no it is not me</button>
+                        </div>
+                    </div>
+
+    <script src="/socket.io/socket.io.js"></script>
+    <script src="/user_home_script.js"></script>
 </body>
 </html>

@@ -6,15 +6,18 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
-    <link rel="stylesheet" href="/user_home.css">
 </head>
 
 <body>
     <h3 id='name'>name: <%= name %>
     </h3>
-    <h3 id='email'>email: <%= email %>
+    <h3 id='placename'>placename: <%= placename %>
     </h3>
-    <h3 id='bcode'>bcode : <%= bcode %>
+    <h3 id='lat'>lat:<%= lat %>
+    </h3>
+    <h3 id='lng'>lng:<%= lng %>
+    </h3>
+    <h3 id='bcode'>partner branch code <%= bcode %>
     </h3>
     <div id="map" style="height: 100vh;"></div>
 
@@ -22,19 +25,14 @@
         <div id='confirm_delivery' class='confirm_delivery'>
             <h3>your order is approx 5 meter away</h3>
 
-            <form action="/user/delivered/<%= email %>" method="POST">
-                <button type="submit" id="me" value="me">
-                    Yes, it is me
-                </button>
-            </form>
-
             <button id='not_me' value="not_me">no it is not me</button>
         </div>
     </div>
 
+
     <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
     <script src="/socket.io/socket.io.js"></script>
-    <script src="/partner_map_script.js"></script>
+    <script src="/deliver_map_script.js"></script>
 </body>
 
 </html>
