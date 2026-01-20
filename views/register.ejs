@@ -10,7 +10,7 @@
 
 <body>
     <h1>register</h1>
-
+    <h3 id = 'role'><%= rolla %></h3>
     <form action='/<%= rolla%>/register' method='POST'>
         <input type='text' name='name' placeholder="name">
         <input type='text' name='email' placeholder='email'>
@@ -18,8 +18,8 @@
         <input type='number' name='branchcode' placeholder="branchcode">
         <input type='text' name='branchname' placeholder="branch name">
         <input type='text' id='placename' name ='placename' placeholder="your location">
-        <input id="lat" name="lat" readonly>
-        <input id="lng" name="lng" readonly>
+        <input id="lat" name="lat" readonly placeholder="will filled automatically">
+        <input id="lng" name="lng" readonly placeholder="will filled automatically">
         <button type="button" onclick="locatePlace()">Locate</button>
         <button type="submit">Register</button>
     </form>
