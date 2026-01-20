@@ -66,14 +66,13 @@ const loginPartner = async (req, res) => {
 
 const registerPartner = async (req, res) => {
     try {
-        const { name, email, password, branchcode, placename, branchname, lat, lng } = req.body;
+        const { name, email, password, placename, branchname, lat, lng } = req.body;
 
         const partnerExists = await Partner.findOne({ email: email });
         if (partnerExists) {
             console.log('partner exists')
             return res.render("register", { rolla: 'partner' });
         }
-
 
         const branch = await Branch.findOne({ name: branchname });
 
@@ -91,14 +90,14 @@ const registerPartner = async (req, res) => {
             name,
             email,
             password,
-            branchcode: Number(branchcode),
+            branchcode: branch.branchcode,
             location: placedetail,
             branch: branch._id
         });
 
         if (!partner) {
             console.log('invalid partner data');
-            res.render("register", { rolla: ' partner' });
+            res.render("base_home");
         }
 
         console.log('partner created successfully');

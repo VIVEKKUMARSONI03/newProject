@@ -66,7 +66,9 @@ const loginUser = async (req, res) => {
 
 const registerUser = async (req, res) => {
     try {
-        const { name, email, password, branchcode, placename, branchname, lat, lng } = req.body;
+        const { name, email, password, placename, lat, lng } = req.body;
+
+        console.log(name, email, password, lat,lng, placename);
 
         const userExists = await User.findOne({ email });
         if (userExists) {
@@ -74,10 +76,9 @@ const registerUser = async (req, res) => {
             return res.render("register", { rolla: 'user' });
         }
 
-        
+        const branch_list = await Branch.find();
 
-        const branch = await Branch.findOne({ name: branchname });
-        if (!branch) {
+        if (!branch_list) {
             return res.render("register",{rolla: 'user'});
         }
 
@@ -85,6 +86,24 @@ const registerUser = async (req, res) => {
             return res.render("register", {rolla : 'user'});
         }
 
+        if( branch_list.length === 0){
+            return res.json({message: 'no branch listed'});
+        }
+
+
+        let minDist = Infinity;
+        let selected_barnch;
+
+        for( const branch of branch_list){
+
+            const x = lat - branch.location.lat;
+            const y = lng - branch.location.lng;
+
+            if( (x*x)+(y*y) < minDist ){
+               selected_barnch = branch;
+               minDist = (x*x)+(y*y);
+            }
+        }
 
         const placedetail = { lat: lat, lng: lng, placename: placename };
 
@@ -92,9 +111,9 @@ const registerUser = async (req, res) => {
             name,
             email,
             password,
-            branchcode: Number(branchcode),
+            branchcode: selected_barnch.branchcode,
             location: placedetail,
-            branch: branch._id
+            branch: selected_barnch._id
         });
 
         console.log('i am at 4');

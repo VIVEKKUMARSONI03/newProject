@@ -19,7 +19,7 @@ admin_router.post('/register', registerAdmin);
 //     res.render('admin_home');
 // })
 
-admin_router.post('/add_branch',add_branch);
+admin_router.post('/add_branch/:ename/:email/:bcode',add_branch);
 
 admin_router.post('/:email/get_orders',get_list);
 

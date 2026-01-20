@@ -1,10 +1,3 @@
-const role = document.getElementById('role');
-const not_for_user = document.getElementById('not_for_user');
-
-if( role.textContent !== 'user'){
-     not_for_user.style.display = 'flex';
-}
-
 const map = L.map("map").setView([21.24366, 81.63560], 13);
 
 L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", {

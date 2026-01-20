@@ -6,6 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+    <link rel="stylesheet" href="/register.css">
 </head>
 
 <body>
@@ -14,12 +15,26 @@
     <form action='/<%= rolla%>/register' method='POST'>
         <input type='text' name='name' placeholder="name">
         <input type='text' name='email' placeholder='email'>
-        <input type='text' name='password' placeholder="password">
-        <input type='number' name='branchcode' placeholder="branchcode">
-        <input type='text' name='branchname' placeholder="branch name">
+        <input type='text' name='password' placeholder="password">  
         <input type='text' id='placename' name ='placename' placeholder="your location">
+        
+        <div id = 'not_for_user' class = 'not_for_user'>
+
+        <label for="branchname">Branchname:</label>
+        <select name="branchname" id="branchname" required>
+            <option value="">-- branch --</option>
+
+            <% for( const branch of branch_list ) { %>
+            <option value="<%= branch.name %>"><%= branch.name %></option>
+            <% } %>
+        </select>
+        </div>
+
+        <div id = 'not_for_anynoe' class = 'not_for_user' >
         <input id="lat" name="lat" readonly placeholder="will filled automatically">
         <input id="lng" name="lng" readonly placeholder="will filled automatically">
+        </div>
+        
         <button type="button" onclick="locatePlace()">Locate</button>
         <button type="submit">Register</button>
     </form>

@@ -5,6 +5,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
 </head>
 
 <body>
@@ -16,13 +17,22 @@
     </h3>
     <h3 id = 'bcode'>bcode : <%= bcode %></h3>
 
-    <form action='/admin/add_branch' method='POST'>
+    <div id="map" style="height: 400px;"></div>
+
+    <form action='/admin/add_branch/<%= name %>/<%= email %>/<%= bcode %>' method='POST'>
         <input type='text' name='name' placeholder='branch name'>
-        <input type='number' name='branchcode' placeholder='branchcode'>
-        <input type = 'text' name = 'location' placeholder ='location of the branch'>
+        <input type='text' id='placename' name ='placename' placeholder="your location">
+        <input type='number' name='branchcode' placeholder="branchcode">
         <input type='number' name='contactInfo' placeholder='contact number'>
-        <button type='submit'>submin</button>
+
+        <div id = 'not_for_anynoe' class = 'not_for_user' style="display: none;" >
+        <input id="lat" name="lat" readonly placeholder="will filled automatically">
+        <input id="lng" name="lng" readonly placeholder="will filled automatically">
+        </div>
+        <button type="button" onclick="locatePlace()">Locate</button>
+        <button type='submit'>ADD BRANCH</button>
     </form>
+    <h3>first search nearby famous place then after drag the marker to your exact location</h3>
 
     <form action='/admin/<%= email %>/get_orders' method='POST'>
         <button type='submit'>get orders list</button>
@@ -40,8 +50,10 @@
              
             <button type = 'submit'>add</button>
     </form>
-
+    
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
     <script src="/socket.io/socket.io.js"></script>
+    <script src="/admin_add_branch.js"></script>
 </body>
 
 </html>

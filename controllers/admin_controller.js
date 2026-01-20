@@ -50,22 +50,21 @@ const loginAdmin = async (req, res) => {
 
 const registerAdmin = async (req, res) => {
     try {
-        const { name, email, password, branchcode,placename, branchname, lat, lng } = req.body;
+        const { name, email, password, placename, branchname, lat, lng } = req.body;
         
         const adminExists = await Admin.findOne({ email });
         if (adminExists) {
             console.log('admin exists')
-            return res.render("register", {rolla : 'admin'});
+            return res.render('base_home');
         }
 
-        
         const branch = await Branch.findOne({ name: branchname });
         if (!branch) {
-            return res.render("register",{rolla : admin});
+            return res.render('base_home');
         }
 
         if( !placename || !lat || !lng){
-            return res.render("register", {rolla : 'user'});
+            return res.render('base_home');
         }
 
         const placedetail = {lat : lat, lng: lng, placename : placename};
@@ -74,18 +73,18 @@ const registerAdmin = async (req, res) => {
             name: name,
             email : email,
             password: password,
-            branchcode: Number(branchcode),
+            branchcode: branch.branchcode,
             location: placedetail,
             branch: branch._id   
         });
 
         if (!admin) {
-            return res.render("register",{rolla : admin});
+            return res.render('base_home');
         }
 
         console.log('admin created successfully');
 
-        return res.render('admin_home',{name: admin.name, email: admin.email,bcode: branchcode });
+        return res.render('admin_home',{name: admin.name, email: admin.email,bcode: admin.branchcode });
 
     } catch (error) {
         console.error(error);
