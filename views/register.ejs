@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>Register</title>
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
     <link rel="stylesheet" href="/register.css">
 </head>
@@ -12,15 +12,16 @@
 <body>
     <h1>register</h1>
     <h3 id = 'role'><%= rolla %></h3>
+    <div class="register-layout">
     <form action='/<%= rolla%>/register' method='POST'>
         <input type='text' name='name' placeholder="name">
         <input type='text' name='email' placeholder='email'>
         <input type='text' name='password' placeholder="password">  
         <input type='text' id='placename' name ='placename' placeholder="your location">
-        
+        <button type="button" onclick="locatePlace()">Locate</button>
         <div id = 'not_for_user' class = 'not_for_user'>
 
-        <label for="branchname">Branchname:</label>
+        <label for="branchname"></label>
         <select name="branchname" id="branchname" required>
             <option value="">-- branch --</option>
 
@@ -35,11 +36,13 @@
         <input id="lng" name="lng" readonly placeholder="will filled automatically">
         </div>
         
-        <button type="button" onclick="locatePlace()">Locate</button>
+        <!-- <button type="button" onclick="locatePlace()">Locate</button> -->
         <button type="submit">Register</button>
     </form>
 
     <div id="map" style="height: 400px;"></div>
+
+    </div>
 
     <h3>first search nearby famous place then after drag the marker to your exact location</h3>
     <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
