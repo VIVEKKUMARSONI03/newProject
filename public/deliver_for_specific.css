@@ -1,0 +1,168 @@
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+}
+
+body {
+    min-height: 100vh;
+    padding: 30px;
+
+    background-image: url("https://res.cloudinary.com/dftacepnw/image/upload/v1769020282/ChatGPT_Image_Jan_21_2026_10_59_52_PM_vt8bol.png");
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+
+    display: flex;
+    gap: 30px;
+    align-items: flex-start;
+}
+
+.details {
+    width: 360px;
+
+    background: rgba(255, 255, 255, 0.8);
+    backdrop-filter: blur(14px);
+
+    border-radius: 18px;
+    padding: 22px;
+
+    box-shadow: 0 18px 40px rgba(0, 0, 0, 0.18);
+
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+
+.details h3 {
+    font-size: 14px;
+    font-weight: 500;
+    color: #333;
+
+    background: rgba(255, 255, 255, 0.9);
+    padding: 10px 14px;
+    border-radius: 10px;
+
+    border: 1px solid #eee;
+}
+
+
+#map {
+    width: 500px;
+    height: 500px;
+
+    border-radius: 18px;
+    overflow: hidden;
+
+    box-shadow: 0 20px 45px rgba(0, 0, 0, 0.25);
+}
+
+
+
+.leaflet-control-zoom {
+    border-radius: 10px;
+    overflow: hidden;
+    box-shadow: 0 6px 16px rgba(0, 0, 0, 0.25);
+}
+
+.leaflet-control-zoom a {
+    color: #d32f2f;
+}
+
+
+.cover {
+    display: none;              
+    position: fixed;
+    inset: 0;
+
+    background: rgba(0, 0, 0, 0.6);
+    backdrop-filter: blur(5px);
+
+    justify-content: center;
+    align-items: center;
+
+    z-index: 999;
+    padding: 20px;
+}
+
+
+.confirm_delivery {
+    width: 340px;
+    padding: 28px;
+
+    background: rgba(255, 255, 255, 0.95);
+    backdrop-filter: blur(15px);
+
+    border-radius: 20px;
+    box-shadow: 0 22px 50px rgba(0, 0, 0, 0.35);
+
+    text-align: center;
+    animation: popIn 0.35s ease-out;
+}
+
+
+.confirm_delivery h3 {
+    font-size: 16px;
+    font-weight: 600;
+    color: #333;
+    margin-bottom: 20px;
+}
+
+
+#not_me {
+    width: 100%;
+    padding: 14px;
+
+    border: none;
+    border-radius: 12px;
+
+    font-size: 14px;
+    font-weight: 600;
+
+    background: #f2f2f2;
+    color: #333;
+
+    cursor: pointer;
+    transition: all 0.25s ease;
+}
+
+#not_me:hover {
+    background: #d32f2f;
+    color: white;
+    transform: translateY(-2px);
+    box-shadow: 0 6px 16px rgba(211, 47, 47, 0.35);
+}
+
+
+@keyframes popIn {
+    from {
+        opacity: 0;
+        transform: translateY(-20px) scale(0.95);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+    }
+}
+
+
+@media (max-width: 900px) {
+    body {
+        flex-direction: column;
+        padding: 20px;
+    }
+
+    .details {
+        width: 100%;
+    }
+
+    #map {
+        width: 100%;
+        max-width: 500px;
+        height: 500px;
+    }
+}
+

@@ -6,9 +6,11 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+    <link rel ='stylesheet' href ='/deliver_for_specific.css'>
 </head>
 
 <body>
+    <div class ='details'>
     <h3 id='name'>name: <%= name %>
     </h3>
     <h3 id='placename'>placename: <%= placename %>
@@ -19,7 +21,8 @@
     </h3>
     <h3 id='bcode'>partner branch code <%= bcode %>
     </h3>
-    <div id="map" style="height: 100vh;"></div>
+    </div>
+    <div id="map"></div>
 
     <div id='cover' class='cover'>
         <div id='confirm_delivery' class='confirm_delivery'>
