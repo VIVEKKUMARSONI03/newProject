@@ -8,30 +8,33 @@
 
 
 body {
-    height: 100vh;
-    display: flex;
-    background-image: url("https://res.cloudinary.com/dftacepnw/image/upload/v1769020282/ChatGPT_Image_Jan_21_2026_10_59_52_PM_vt8bol.png"); /* same background */
+    min-height: 100vh;
+    padding-left: 10%;
+
+    background-image: url("https://res.cloudinary.com/dftacepnw/image/upload/v1769020282/ChatGPT_Image_Jan_21_2026_10_59_52_PM_vt8bol.png");
     background-size: cover;
     background-position: center;
     background-repeat: no-repeat;
-    overflow: hidden;
+}
+
+
+body {
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    gap: 40px;
 }
 
 
 .info-grid {
-    position: absolute;
-    top: 40px;
-    left: 40px;
-    z-index: 1000;
-
     width: 360px;
-    padding: 22px;
+    padding: 24px;
 
     background: rgba(255, 255, 255, 0.78);
     backdrop-filter: blur(12px);
     border-radius: 18px;
 
-    box-shadow: 0 20px 45px rgba(0, 0, 0, 0.18);
+    box-shadow: 0 18px 40px rgba(0, 0, 0, 0.16);
 
     display: grid;
     grid-template-columns: 1fr;
@@ -40,7 +43,7 @@ body {
 
 
 .info-item {
-    padding: 10px 14px;
+    padding: 12px 14px;
     border-radius: 10px;
     background: rgba(255, 255, 255, 0.9);
     border: 1px solid #eee;
@@ -52,25 +55,23 @@ body {
     color: #333;
 }
 
-.info-item h3 span {
-    font-weight: 600;
-}
-
 
 #map {
-    flex: 1;
-    height: 100vh;
-    width: 100%;
-    z-index: 1;
+    width: 520px;
+    height: 480px;
 
-    border-left: 1px solid rgba(0, 0, 0, 0.05);
+    background: #fff;
+    border-radius: 18px;
+    overflow: hidden;
+
+    box-shadow: 0 20px 45px rgba(0, 0, 0, 0.18);
 }
 
 
 .leaflet-control-zoom {
     border-radius: 10px;
     overflow: hidden;
-    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
+    box-shadow: 0 8px 18px rgba(0, 0, 0, 0.25);
 }
 
 .leaflet-control-zoom a {
@@ -78,11 +79,18 @@ body {
 }
 
 
-@media (max-width: 768px) {
+@media (max-width: 900px) {
+    body {
+        flex-direction: column;
+        align-items: center;
+    }
+
     .info-grid {
         width: 90%;
-        left: 50%;
-        transform: translateX(-50%);
-        top: 20px;
+    }
+
+    #map {
+        width: 90%;
+        height: 360px;
     }
 }
