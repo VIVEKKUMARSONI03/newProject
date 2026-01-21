@@ -1,4 +1,4 @@
-/* map.css */
+/* map_for_user.css */
 
 * {
     margin: 0;
@@ -9,61 +9,81 @@
 
 body {
     min-height: 100vh;
-    background-image: url("cylinder2.png");
+    background-image: url("https://res.cloudinary.com/dftacepnw/image/upload/v1769020282/ChatGPT_Image_Jan_21_2026_10_59_52_PM_vt8bol.png");
     background-size: cover;
     background-position: center;
     background-repeat: no-repeat;
     color: #222;
     display: flex;
-    flex-direction: column;
     padding: 20px;
 }
 
+/* Split Layout Container */
 .info-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-    gap: 15px;
-    margin-bottom: 20px;
-    z-index: 1000;
-    position: relative;
-}
-
-.info-item {
+    display: flex;
+    flex-direction: column;
+    width: 400px;
     background: rgba(255, 255, 255, 0.85);
     backdrop-filter: blur(10px);
-    border-radius: 12px;
-    padding: 20px;
-    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.12);
+    border-radius: 16px;
+    padding: 30px;
+    box-shadow: 0 12px 35px rgba(0, 0, 0, 0.15);
+    margin-right: 20px;
+    border: 1px solid rgba(221, 221, 221, 0.3);
+}
+
+/* Title like the image */
+.info-grid::before {
+    content: "Delivery Details";
+    display: block;
+    font-size: 24px;
+    font-weight: 600;
+    color: #222;
+    margin-bottom: 30px;
+    padding-bottom: 15px;
+    border-bottom: 2px solid rgba(211, 47, 47, 0.3);
+    text-align: center;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+/* Info Items Styling */
+.info-item {
+    background: rgba(255, 255, 255, 0.7);
+    border-radius: 10px;
+    padding: 18px 20px;
+    margin-bottom: 15px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
     border-left: 4px solid #d32f2f;
     transition: all 0.3s ease;
 }
 
 .info-item:hover {
-    transform: translateY(-3px);
-    box-shadow: 0 12px 30px rgba(0, 0, 0, 0.18);
-    background: rgba(255, 255, 255, 0.95);
+    transform: translateX(5px);
+    background: rgba(255, 255, 255, 0.9);
 }
 
 .info-item h3 {
     font-size: 16px;
     color: #333;
-    line-height: 1.5;
     display: flex;
     justify-content: space-between;
     align-items: center;
 }
 
 .info-item h3::before {
-    content: '📍';
-    margin-right: 10px;
+    content: '';
     font-size: 18px;
+    margin-right: 12px;
+    opacity: 0.8;
 }
 
-.info-item:first-child h3::before { content: '👤'; }
+/* Specific icons for each field */
+.info-item:nth-child(1) h3::before { content: '👤'; }
 .info-item:nth-child(2) h3::before { content: '📧'; }
 .info-item:nth-child(3) h3::before { content: '🏢'; }
-.info-item:nth-child(4) h3::before { content: '🌐'; }
-.info-item:nth-child(5) h3::before { content: '🌐'; }
+.info-item:nth-child(4) h3::before { content: '📍'; }
+.info-item:nth-child(5) h3::before { content: '📍'; }
 .info-item:nth-child(6) h3::before { content: '🏠'; }
 
 .info-item span {
@@ -74,38 +94,60 @@ body {
     flex: 1;
     margin-left: 10px;
     word-break: break-word;
+    background: rgba(211, 47, 47, 0.1);
+    padding: 6px 12px;
+    border-radius: 6px;
 }
 
-
+/* Special styling for coordinates */
 .info-item:nth-child(4) span,
 .info-item:nth-child(5) span {
-    background: rgba(211, 47, 47, 0.1);
-    padding: 4px 10px;
-    border-radius: 6px;
-    display: inline-block;
-}
-
-
-.info-item:last-child span {
     background: rgba(211, 47, 47, 0.15);
-    padding: 5px 12px;
-    border-radius: 8px;
     color: #b71c1c;
     font-weight: 700;
+    font-family: monospace;
 }
 
+/* Special styling for location */
+.info-item:last-child span {
+    background: rgba(211, 47, 47, 0.2);
+    color: #b71c1c;
+    font-weight: 700;
+    font-size: 16px;
+}
+
+/* Map Container */
 #map {
-    height: calc(100vh - 200px);
-    width: 100%;
+    flex: 1;
+    height: calc(100vh - 40px);
     border-radius: 16px;
     box-shadow: 0 12px 35px rgba(0, 0, 0, 0.2);
     overflow: hidden;
-    z-index: 1;
+    border: 3px solid rgba(255, 255, 255, 0.9);
     position: relative;
-    border: 3px solid rgba(255, 255, 255, 0.8);
 }
 
+/* Map Title Overlay */
+#map::before {
+    content: "Interactive Map";
+    position: absolute;
+    top: 20px;
+    left: 20px;
+    background: rgba(255, 255, 255, 0.95);
+    backdrop-filter: blur(10px);
+    padding: 12px 24px;
+    border-radius: 10px;
+    font-size: 18px;
+    font-weight: 600;
+    color: #222;
+    z-index: 1000;
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.15);
+    border: 1px solid rgba(211, 47, 47, 0.2);
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
 
+/* Leaflet Customization */
 .leaflet-container {
     font-family: "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
     border-radius: 14px;
@@ -131,39 +173,99 @@ body {
 .leaflet-popup-content-wrapper {
     border-radius: 10px;
     box-shadow: 0 6px 20px rgba(0, 0, 0, 0.15);
+    border: 2px solid rgba(211, 47, 47, 0.2);
 }
 
-
+/* Delivery Marker Styling */
 .delivery-marker {
     background: #d32f2f;
-    border: 3px solid white;
-    box-shadow: 0 0 0 4px rgba(211, 47, 47, 0.3);
+    border: 4px solid white;
+    box-shadow: 0 0 0 6px rgba(211, 47, 47, 0.4);
+    animation: pulse 2s infinite;
 }
 
+@keyframes pulse {
+    0% {
+        box-shadow: 0 0 0 0 rgba(211, 47, 47, 0.7);
+    }
+    70% {
+        box-shadow: 0 0 0 15px rgba(211, 47, 47, 0);
+    }
+    100% {
+        box-shadow: 0 0 0 0 rgba(211, 47, 47, 0);
+    }
+}
 
+/* Map Controls */
+.map-controls {
+    position: absolute;
+    bottom: 20px;
+    right: 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    z-index: 1000;
+}
+
+.control-btn {
+    background: rgba(255, 255, 255, 0.95);
+    backdrop-filter: blur(10px);
+    border: none;
+    border-radius: 10px;
+    padding: 12px 20px;
+    font-size: 14px;
+    font-weight: 600;
+    color: #333;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.15);
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    border: 1px solid rgba(221, 221, 221, 0.5);
+}
+
+.control-btn:hover {
+    background: #d32f2f;
+    color: white;
+    transform: translateY(-2px);
+    box-shadow: 0 10px 25px rgba(211, 47, 47, 0.3);
+}
+
+.control-btn:active {
+    transform: translateY(0);
+}
+
+/* Responsive Design */
 @media (max-width: 1024px) {
-    .info-grid {
-        grid-template-columns: repeat(2, 1fr);
-    }
-    
-    #map {
-        height: calc(100vh - 250px);
-    }
-}
-
-@media (max-width: 768px) {
     body {
+        flex-direction: column;
         padding: 15px;
     }
     
     .info-grid {
-        grid-template-columns: 1fr;
-        gap: 12px;
-        margin-bottom: 15px;
+        width: 100%;
+        margin-right: 0;
+        margin-bottom: 20px;
+        padding: 25px;
+    }
+    
+    #map {
+        height: calc(100vh - 400px);
+    }
+    
+    .info-grid::before {
+        font-size: 22px;
+    }
+}
+
+@media (max-width: 768px) {
+    .info-grid {
+        padding: 20px;
     }
     
     .info-item {
-        padding: 18px;
+        padding: 15px;
     }
     
     .info-item h3 {
@@ -173,10 +275,6 @@ body {
         gap: 8px;
     }
     
-    .info-item h3::before {
-        font-size: 16px;
-    }
-    
     .info-item span {
         text-align: left;
         margin-left: 0;
@@ -184,8 +282,13 @@ body {
         font-size: 14px;
     }
     
+    #map::before {
+        font-size: 16px;
+        padding: 10px 20px;
+    }
+    
     #map {
-        height: calc(100vh - 350px);
+        height: calc(100vh - 450px);
         border-width: 2px;
     }
 }
@@ -195,8 +298,18 @@ body {
         padding: 10px;
     }
     
-    .info-item {
+    .info-grid {
         padding: 15px;
+    }
+    
+    .info-grid::before {
+        font-size: 20px;
+        margin-bottom: 20px;
+    }
+    
+    .info-item {
+        padding: 12px;
+        margin-bottom: 10px;
     }
     
     .info-item h3 {
@@ -205,33 +318,54 @@ body {
     
     .info-item span {
         font-size: 13px;
-        padding: 3px 8px;
+        padding: 5px 10px;
     }
     
     #map {
-        height: calc(100vh - 400px);
+        height: calc(100vh - 500px);
         border-radius: 12px;
+    }
+    
+    #map::before {
+        top: 10px;
+        left: 10px;
+        font-size: 14px;
+        padding: 8px 16px;
+    }
+    
+    .map-controls {
+        bottom: 10px;
+        right: 10px;
+    }
+    
+    .control-btn {
+        padding: 10px 15px;
+        font-size: 13px;
     }
 }
 
-
-@keyframes fadeInUp {
+/* Animations */
+@keyframes slideInLeft {
     from {
         opacity: 0;
-        transform: translateY(20px);
+        transform: translateX(-30px);
     }
     to {
         opacity: 1;
-        transform: translateY(0);
+        transform: translateX(0);
     }
 }
 
+.info-grid {
+    animation: slideInLeft 0.6s ease-out;
+}
+
 .info-item {
-    animation: fadeInUp 0.5s ease-out;
+    animation: slideInLeft 0.5s ease-out;
     animation-fill-mode: both;
 }
 
-
+/* Stagger animations for items */
 .info-item:nth-child(1) { animation-delay: 0.1s; }
 .info-item:nth-child(2) { animation-delay: 0.2s; }
 .info-item:nth-child(3) { animation-delay: 0.3s; }
@@ -239,7 +373,7 @@ body {
 .info-item:nth-child(5) { animation-delay: 0.5s; }
 .info-item:nth-child(6) { animation-delay: 0.6s; }
 
-@keyframes mapAppear {
+@keyframes fadeIn {
     from {
         opacity: 0;
         transform: scale(0.98);
@@ -251,84 +385,44 @@ body {
 }
 
 #map {
-    animation: mapAppear 0.6s ease-out 0.8s both;
+    animation: fadeIn 0.8s ease-out 0.7s both;
 }
 
-
-@keyframes coordinatePulse {
+/* Coordinates highlight animation */
+@keyframes highlight {
     0%, 100% {
-        background: rgba(211, 47, 47, 0.1);
+        background: rgba(211, 47, 47, 0.15);
         transform: scale(1);
     }
     50% {
-        background: rgba(211, 47, 47, 0.2);
+        background: rgba(211, 47, 47, 0.25);
         transform: scale(1.02);
     }
 }
 
 .info-item:nth-child(4) span,
 .info-item:nth-child(5) span {
-    animation: coordinatePulse 3s infinite;
+    animation: highlight 3s infinite;
 }
 
-
-.map-loading {
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    background: rgba(255, 255, 255, 0.9);
-    padding: 20px 30px;
-    border-radius: 12px;
-    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
-    z-index: 1001;
-    display: none;
-    backdrop-filter: blur(5px);
-    border: 1px solid rgba(211, 47, 47, 0.2);
-}
-
-
-.location-status {
-    display: none;
-    position: absolute;
-    bottom: 20px;
-    left: 20px;
-    background: rgba(255, 255, 255, 0.95);
-    padding: 15px 20px;
-    border-radius: 12px;
-    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
-    z-index: 1000;
-    backdrop-filter: blur(10px);
-    border-left: 4px solid #4CAF50;
-    font-weight: 600;
-    color: #333;
-}
-
-
-.fullscreen-btn {
-    position: absolute;
-    bottom: 20px;
-    right: 20px;
-    background: rgba(255, 255, 255, 0.95);
-    border: none;
+/* Instruction text */
+.instructions {
+    margin-top: 20px;
+    padding: 15px;
+    background: rgba(211, 47, 47, 0.1);
     border-radius: 10px;
-    padding: 12px 20px;
-    font-size: 14px;
-    font-weight: 600;
-    color: #333;
-    cursor: pointer;
-    z-index: 1000;
-    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.15);
-    transition: all 0.3s ease;
-    display: flex;
-    align-items: center;
-    gap: 8px;
-    backdrop-filter: blur(10px);
+    border-left: 4px solid #d32f2f;
 }
 
-.fullscreen-btn:hover {
-    background: #d32f2f;
-    color: white;
-    transform: translateY(-2px);
-    box-shadow: 0 10px 25px rgba(211, 47, 47, 0.3);
+.instructions p {
+    font-size: 14px;
+    color: #666;
+    line-height: 1.5;
+    margin-bottom: 8px;
+}
+
+.instructions p:last-child {
+    margin-bottom: 0;
+    color: #d32f2f;
+    font-weight: 600;
 }
