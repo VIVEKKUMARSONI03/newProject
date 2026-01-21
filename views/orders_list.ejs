@@ -4,26 +4,45 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Orders</title>
+    <link rel = 'stylesheet' href = '/order_list.css'>
 </head>
 <body>
 
+ <div class="container">
     <% if (!orders || orders.length === 0) { %>
-        <h3>No orders yet</h3>
+       <div class="no-orders">
+                <h3>No orders yet</h3>
+            </div>
     <% } else { %>
         <ul>
+             <div class="orders-list">
             <% orders.forEach(order => { %>
                 <li>
+                  <div class="order-card">
+                     <div class="order-header">
                     Order ID: <%= order._id %><br>
+                    </div>
+                    <div class="detail-item">
                     User Name: <%= order.name %><br>
+                    </div>
+                    <div class="detail-item">
                     Delivery location : <%= order.location.placename %><br>
+                    </div>
+                
+                    <div class="detail-item">
                     Mode of payment: <%= order.payment_mode %>
+                    </div>
+                 </div>
+                
                     <form action = '/partner/deliver/<%= order.location.lat %>/<%= order.location.lng %>/<%= order.location.placename %>/<%= order.name %>/<%= bcode %>' method = 'POST'>
                         <button type = 'submit'>deliver</button>
                     </form>
                 </li>
             <% }); %>
+            </div>
         </ul>
     <% } %>
+</div>
 
 </body>
 </html>

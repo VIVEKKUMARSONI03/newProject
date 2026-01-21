@@ -1,25 +1,40 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>Dashboard</title>
+    <link rel = 'stylesheet' href ='/partner_home.css'>
 </head>
+
 <body>
-    <h1> welcome to partner home</h1>
+    <div class="container">
 
-    <h3 id = 'name'>name : <%= name %></h3>
-    <h3 id = 'email'>email :<%= email %></h3>
-    <h3 id = 'bcode'>bcode: <%= bcode %></h3>
-    
+        <div class="header">
+            <h1>Welcome to Partner Home</h1>
+        </div>
 
-    <form action = '/partner/<%= email %>/get_list' method = 'POST'>
-        <button type = 'submit'>get ordered list</button>
-    </form>
+        <div class="info-section">
+            <h3 id='name'>name : <%= name %>
+            </h3>
+            <h3 id='email'>email :<%= email %>
+            </h3>
+            <h3 id='bcode'>bcode: <%= bcode %>
+            </h3>
+        </div>
 
-    <form action = '/partner/open_map/<%= email %>' method = 'POST'>
-        <button type = 'submit'>see map</button>
-    </form>
+        <div class="actions-section">
+            <form action='/partner/<%= email %>/get_list' method='POST'>
+                <button type='submit'>get ordered list</button>
+            </form>
+
+            <form action='/partner/open_map/<%= email %>' method='POST'>
+                <button type='submit'>see map</button>
+            </form>
+        </div>
+    </div>
     <script src="/socket.io/socket.io.js"></script>
 </body>
+
 </html>

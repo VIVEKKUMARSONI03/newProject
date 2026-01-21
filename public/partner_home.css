@@ -1,0 +1,208 @@
+/* partner_home.css */
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+}
+
+body {
+    min-height: 100vh;
+    padding: 30px 40px;
+    background-image: url("https://res.cloudinary.com/dftacepnw/image/upload/v1769020282/ChatGPT_Image_Jan_21_2026_10_59_52_PM_vt8bol.png");
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    color: #222;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.container {
+    width: 100%;
+    max-width: 700px;
+    background: rgba(255, 255, 255, 0.85);
+    backdrop-filter: blur(10px);
+    border-radius: 16px;
+    padding: 40px;
+    box-shadow: 0 12px 35px rgba(0, 0, 0, 0.15);
+}
+
+.header {
+    text-align: center;
+    margin-bottom: 30px;
+}
+
+.header h1 {
+    text-transform: capitalize;
+    font-size: 32px;
+    color: #222;
+    letter-spacing: 0.5px;
+}
+
+.info-section {
+    background: rgba(255, 255, 255, 0.7);
+    padding: 25px;
+    border-radius: 12px;
+    margin-bottom: 30px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
+}
+
+.info-section h3 {
+    font-size: 18px;
+    margin-bottom: 15px;
+    padding-bottom: 10px;
+    border-bottom: 1px solid rgba(221, 221, 221, 0.5);
+    color: #444;
+}
+
+.info-section h3:last-child {
+    margin-bottom: 0;
+    padding-bottom: 0;
+    border-bottom: none;
+}
+
+.info-section h3 span {
+    color: #d32f2f;
+    font-weight: 600;
+}
+
+.actions-section {
+    display: flex;
+    gap: 20px;
+    flex-wrap: wrap;
+}
+
+.actions-section form {
+    flex: 1;
+    min-width: 200px;
+}
+
+.actions-section button {
+    width: 100%;
+    padding: 18px 20px;
+    border-radius: 10px;
+    border: none;
+    font-size: 16px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+.actions-section form:first-child button {
+    background: #d32f2f;
+    color: white;
+}
+
+.actions-section form:first-child button:hover {
+    background: #b71c1c;
+    transform: translateY(-3px);
+    box-shadow: 0 8px 20px rgba(183, 28, 28, 0.3);
+}
+
+.actions-section form:last-child button {
+    background: #f5cece;
+    color: #333;
+}
+
+.actions-section form:last-child button:hover {
+    background: #d32f2f;
+    color: white;
+    transform: translateY(-3px);
+    box-shadow: 0 8px 20px rgba(211, 47, 47, 0.2);
+}
+
+.actions-section button:active {
+    transform: translateY(-1px);
+}
+
+/* Responsive Design */
+@media (max-width: 900px) {
+    body {
+        padding: 20px;
+    }
+
+    .container {
+        padding: 30px;
+    }
+
+    .header h1 {
+        font-size: 28px;
+    }
+
+    .info-section {
+        padding: 20px;
+    }
+
+    .info-section h3 {
+        font-size: 16px;
+    }
+}
+
+@media (max-width: 768px) {
+    .actions-section {
+        flex-direction: column;
+        gap: 15px;
+    }
+
+    .actions-section form {
+        min-width: 100%;
+    }
+}
+
+@media (max-width: 480px) {
+    body {
+        padding: 15px;
+    }
+
+    .container {
+        padding: 25px;
+    }
+
+    .header h1 {
+        font-size: 24px;
+    }
+
+    .info-section {
+        padding: 18px;
+    }
+
+    .info-section h3 {
+        font-size: 15px;
+        margin-bottom: 12px;
+        padding-bottom: 8px;
+    }
+
+    .actions-section button {
+        padding: 16px 18px;
+        font-size: 15px;
+    }
+}
+
+/* Animation for container */
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.container {
+    animation: fadeIn 0.6s ease-out;
+}
+
+/* Optional: Add hover effect for info section */
+.info-section:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.1);
+    transition: all 0.3s ease;
+}
