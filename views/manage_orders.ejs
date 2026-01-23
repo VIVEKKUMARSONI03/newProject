@@ -1,43 +1,47 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
     <link rel="stylesheet" href="/user_home.css">
 </head>
+
 <body>
-    
-     
+
+
 
     <% if(orderId){ %>
-            <h3>the order is : <%= orderId %></h3>
-             <form action='/user/open_map/<%= email %>' method='POST'>
-        <button type='submit'>TRACK</button>
-    </form>
+        <h3>the order is : <%= orderId %>
+        </h3>
+        <form action='/user/open_map/<%= email %>' method='POST'>
+            <button type='submit'>TRACK</button>
+        </form>
 
-     <form action="/user/cancel/<%= email %>" method = "POST">
-        <button type= 'submit'>cancel order</button>
-     </form>
-    <% }else{  %>
-        <h3>you dont have any order</h3>
-    <% } %>
-   
-    <div id='cover' class='cover'>
-                        <div id='confirm_delivery' class='confirm_delivery'>
-                            <h3>your order is approx 5 meter away</h3>
+        <form action="/user/cancel/<%= email %>" method="POST">
+            <button type='submit'>cancel order</button>
+        </form>
+        <% }else{ %>
+            <h3>you dont have any order</h3>
+            <% } %>
 
-                            <form action="/user/delivered/<%= email %>" method="POST">
-                                <button type="submit" id="me" value="me">
-                                    Yes, it is me
-                                </button>
-                            </form>
+                <div id='cover' class='cover'>
+                    <div id='confirm_delivery' class='confirm_delivery'>
+                        <h3>your order is approx 5 meter away</h3>
 
-                            <button id='not_me' value="not_me">no it is not me</button>
-                        </div>
+                        <button id='me' value='me'>yes i am</button>
+                        <button id='not_me' value="not_me">no </button>
                     </div>
+                </div>
 
-    <script src="/socket.io/socket.io.js"></script>
-    <script src="/user_home_script.js"></script>
+                <div id='cover2' class='cover2'>
+                    <div id='confirm_delivery2' class='confirm_delivery2'>
+                        <button type='submit' id='payment_button'>payment</button>
+                    </div>
+                </div>
+
+                <script src="/socket.io/socket.io.js"></script>
+                <script src="/user_home_script.js"></script>
 </body>
 </html>

@@ -3,11 +3,35 @@ const g = document.getElementById('lng');
 const bcode = document.getElementById('bcode');
 const nm = document.getElementById('nm');
 const cover = document.getElementById('cover');
+const right_user = document.getElementById('right_user');
+const payment = document.getElementById('payment');
+const payment_box = document.getElementById('payment_box');
 const socket = io();
+
+socket.on('payment', (msg) => {
+    payment_box.checked = true;
+})
+
+const text = payment.innerText.split(":")[1].trim();
+
+if (text === "true") {
+    payment_box.checked = true;
+}
+
+socket.on('s_conf_u', (msg) => {
+    console.log('user ne bheja tha partner ko mil gaya');
+    //window.location.href = '/partner/arrived';
+    cover.style.display = 'flex';
+})
+
+socket.on('scs_dlv', (msg) => {
+    right_user.checked = true;
+})
+
 
 const extractCoordinate = (element) => {
     const text = element.textContent;
-    // Extract the number after the colon
+
     const match = text.split(':').pop().trim();
     const num = parseFloat(match);
     return isNaN(num) ? 0 : num;
@@ -18,7 +42,7 @@ let user = {
     lng: extractCoordinate(g)
 };
 
-console.log(user);
+//console.log(user);
 
 let partner = { lat: 21.2379, lng: 81.6337 };
 
@@ -74,10 +98,11 @@ const setloc = () => {
                     console.log('p', pointA.distanceTo(pointB));
                     socket.emit('p_to_X', "partner_bola");
                     //window.location.href = '/partner/arrived';
-                    cover.style.display ='flex';
+                    cover.style.display = 'flex';
                 }
                 else {
                     console.log('p', pointA.distanceTo(pointB));
+                    console.log('partner location is :', partner);
                     socket.emit('msg_from_partner', { p_latitude: partner.lat, p_longitude: partner.lng, p_branchcode: bcode.textContent });
 
                 }
@@ -89,11 +114,11 @@ const setloc = () => {
     } else {
         console.log("Geolocation is not supported");
     }
-    socket.on('s_conf_u', (msg) => {
-        console.log('user ne bheja tha partner ko mil gaya');
-        //window.location.href = '/partner/arrived';
-        cover.style.display ='flex';
-    })
+
+
+
+
+
     drawRoute(user, partner);
 }
 

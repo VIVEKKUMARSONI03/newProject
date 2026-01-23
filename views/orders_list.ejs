@@ -34,7 +34,7 @@
                     </div>
                  </div>
                 
-                    <form action = '/partner/deliver/<%= order.location.lat %>/<%= order.location.lng %>/<%= order.location.placename %>/<%= order.name %>/<%= bcode %>' method = 'POST'>
+                    <form action = '/partner/deliver/<%= order.location.lat %>/<%= order.location.lng %>/<%= order.location.placename %>/<%= order.name %>/<%= order.payment %>/<%= bcode %>' method = 'POST'>
                         <button type = 'submit'>deliver</button>
                     </form>
                 </li>

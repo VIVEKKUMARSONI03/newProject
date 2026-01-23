@@ -21,14 +21,28 @@
     </h3>
     <h3 id='bcode'>partner branch code <%= bcode %>
     </h3>
+    <h3 id = 'payment'>payment: <%= payment %></h3>
     </div>
     <div id="map"></div>
 
     <div id='cover' class='cover'>
         <div id='confirm_delivery' class='confirm_delivery'>
             <h3>your order is approx 5 meter away</h3>
+        <form action = '/partner/reached/<%= name %>'>
+            <label>
+                <input type="checkbox" id="payment_box" name = 'payment_box'>
+                Payment Done
+            </label>
+            <br>
 
-            <button id='not_me' value="not_me">no it is not me</button>
+            <label>
+                <input type="checkbox" id="right_user" name = 'right_user'>
+                Right User
+            </label>
+            <br><br>
+            
+            <button id="confirmed" type = 'submit'>Deliver</button>
+            </form>
         </div>
     </div>
 

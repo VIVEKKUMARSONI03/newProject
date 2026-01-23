@@ -22,7 +22,9 @@
         <div id = 'not_for_user' class = 'not_for_user'>
 
         <label for="branchname"></label>
-        <select name="branchname" id="branchname" required>
+        <select name="branchname" id="branchname" <% if (rolla != 'user') { %>
+        required
+        <% } %> >
             <option value="">-- branch --</option>
 
             <% for( const branch of branch_list ) { %>

@@ -62,7 +62,15 @@ io.on('connection', (socket) => {
   });
 
   socket.on('me',(msg) =>{
-       io.emit('scs_dlv',msg); //sending msg to every body even to the sender too
+       socket.broadcast.emit('scs_dlv',msg); //sending msg to every body even to the sender too
+  })
+
+  socket.on('not_me',(msg) => {
+       //socket.broadcast.emit('')
+  })
+
+  socket.on('payment_done',(msg) => {
+       socket.broadcast.emit('payment',"payment done");
   })
 
   socket.on('disconnect', () => {

@@ -10,28 +10,34 @@
 </head>
 
 <body>
- <div class = 'details'>
-    <h3 id='name'>name: <%= name %>
-    </h3>
-    <h3 id='email'>email: <%= email %>
-    </h3>
-    <h3 id='bcode'>bcode : <%= bcode %>
-    </h3>
-   
-</div>
- <div id="map"></div>
+    <div class='details'>
+        <h3 id='name'>name: <%= name %>
+        </h3>
+        <h3 id='email'>email: <%= email %>
+        </h3>
+        <h3 id='bcode'>bcode : <%= bcode %>
+        </h3>
+
+    </div>
+    <div id="map"></div>
 
     <div id='cover' class='cover'>
         <div id='confirm_delivery' class='confirm_delivery'>
             <h3>your order is approx 5 meter away</h3>
 
-            <form action="/user/delivered/<%= email %>" method="POST">
-                <button type="submit" id="me" value="me">
-                    Yes, it is me
-                </button>
-            </form>
+            <label>
+                <input type="checkbox" id="payment_box">
+                Payment Done
+            </label>
+            <br>
 
-            <button id='not_me' value="not_me">no it is not me</button>
+            <label>
+                <input type="checkbox" id="right_user">
+                Right User
+            </label>
+            <br><br>
+
+            <button id="confirmed" disabled>Deliver</button>
         </div>
     </div>
 

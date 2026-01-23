@@ -1,6 +1,6 @@
 const express = require('express');
 const project_router = express.Router();
-const { loginUser,registerUser, create_order, show_map, cancel,delivered } = require('../controllers/user_controller');
+const { loginUser,registerUser, create_order, show_map, cancel } = require('../controllers/user_controller');
 
 project_router.get('/login',(req, res, next) => {
     res.render('login');
@@ -31,6 +31,6 @@ project_router.get('/arrived', (req, res, next) => {
     res.render('arrived_for_user');
 })
 
-project_router.post('/delivered/:email',delivered);
+// project_router.post('/delivered/:email',delivered);
 
 module.exports = {project_router : project_router };

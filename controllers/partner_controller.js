@@ -189,9 +189,29 @@ const parrived = async(req, res, next)=> {
 }
 
 const deliver = async(req, res, next) =>{
-     const{lat,lng,placename,name,bcode} = req.params;
+     const{lat,lng,placename,name, payment, bcode} = req.params;
 
-     res.render('deliver_for_specific',{lat:lat,lng:lng,placename:placename,name:name,bcode:bcode});
+     res.render('deliver_for_specific',{lat:lat,lng:lng,placename:placename,name:name, payment: payment,bcode:bcode});
 }
 
-module.exports = { loginPartner: loginPartner, registerPartner: registerPartner, get_list: get_list, show_map: show_map, parrived: parrived, deliver: deliver };
+const reached = async(req, res, next) => {
+    const {payment_box, right_user } = req.body;
+    const {name} = req.params;
+
+    if( payment_box === true && right_user === true){
+
+       const user = await User.findOneAndUpdate(
+        {name : name},
+        { $pop :{has_order:1}},
+        {new:true}
+    )
+
+       const order = await Order.findOneAndDelete({user : user._id});
+
+       console.log('order delivered successully ans user confirmed the order');
+
+       res.render()
+    }
+}
+
+module.exports = { loginPartner: loginPartner, registerPartner: registerPartner, get_list: get_list, show_map: show_map, parrived: parrived, deliver: deliver, reached: reached };

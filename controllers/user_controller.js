@@ -203,21 +203,21 @@ const cancel = async (req, res, next) => {
      res.render('home', { email: email, name: user.name, bcode: user.branchcode, has_order: updated_user.has_order});
 }
 
-const delivered = async(req, res, next)=> {
+// const delivered = async(req, res, next)=> {
      
-       const {email} = req.params;
+//        const {email} = req.params;
 
-       const user = await User.findOneAndUpdate(
-        {email : email},
-        { $pop :{has_order:1}},
-        {new:true}
-    )
+//        const user = await User.findOneAndUpdate(
+//         {email : email},
+//         { $pop :{has_order:1}},
+//         {new:true}
+//     )
 
-       const order = await Order.findOneAndDelete({user : user._id});
+//        const order = await Order.findOneAndDelete({user : user._id});
 
-       console.log('order delivered successully ans user confirmed the order');
+//        console.log('order delivered successully ans user confirmed the order');
 
-       res.render('home', { email: email, name: user.name, bcode: user.branchcode, has_order: user.has_order});
-}
+//        res.render('home', { email: email, name: user.name, bcode: user.branchcode, has_order: user.has_order});
+// }
 
-module.exports = { loginUser: loginUser, registerUser: registerUser, create_order: create_order, show_map: show_map, cancel: cancel, delivered: delivered };
+module.exports = { loginUser: loginUser, registerUser: registerUser, create_order: create_order, show_map: show_map, cancel: cancel };

@@ -2,9 +2,25 @@ const bcode = document.getElementById('bcode');
 const nm = document.getElementById('name');
 const t = document.getElementById('lat');
 const g = document.getElementById('lng');
+const me = document.getElementById('me');
+const cover = document.getElementById('cover');
+const not_me = document.getElementById('not_me');
 const socket = io();
 
 socket.emit('msg_from_user', 'i am a user');
+
+not_me.addEventListener('click',()=>{
+    cover.style.display = 'none';
+    socket.emit('not_me',"you are at wrong user");
+})
+
+me.addEventListener('click', ()=>{
+    cover.style.display = 'none';
+    cover2.style.display = 'flex';
+    socket.emit('me',"yes i am");
+})
+
+socket.on('')
 
 const extractCoordinate = (element) => {
     const text = element.textContent;
@@ -53,10 +69,10 @@ socket.on('mfp_vb_fu', (msg) => {
     }
 })
 
-socket.on('s_conf_p',(msg)=>{
-    console.log('partner ne bheja and user ko mil gaya ');
-    window.location.href = '/user/arrived';
-})
+// socket.on('s_conf_p',(msg)=>{
+//     console.log('partner ne bheja and user ko mil gaya ');
+//     window.location.href = '/user/arrived';
+// })
 
 const setloc = () => {
 
@@ -76,7 +92,7 @@ const setloc = () => {
                 if (pointA.distanceTo(pointB) <= 5) {
                     console.log('u',pointA.distanceTo(pointB) );
                     socket.emit('u_to_X',"band_karo_bhai");
-                    window.location.href = '/user/arrived';
+                    //window.location.href = '/user/arrived';
                 }
                 else{
                     console.log('u',pointA.distanceTo(pointB) );
