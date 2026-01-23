@@ -250,6 +250,9 @@ const checkUser = async (req, res) => {
         else if( admin){
             return res.render('admin_home',{name:admin.name, email:admin.email, bcode: admin.branchcode, orders:{}});
         }
+        else{
+            res.render('base_home');
+        }
 
         
 
