@@ -4,6 +4,16 @@ const Branch = require('../models/branch_model');
 
 const bcrypt = require('bcryptjs');
 
+const generateAccessAndRefereshTokens = async(element) => {
+
+    const admin = await Admin.findById(element);
+
+    const accessToken = admin.generateAccessToken(admin._id);
+    const refreshToken = admin.generateRefreshToken(admin._id);
+
+    return {accessToken, refreshToken};
+}
+
 const loginAdmin = async (req, res) => {
 
     const { email, password } = req.body;
@@ -27,24 +37,19 @@ const loginAdmin = async (req, res) => {
         return res.render("login", { role: null });
     }
 
-    //   const token = await generateAccessAndRefereshTokens(user._id);
+      const {accessToken, refreshToken} = await generateAccessAndRefereshTokens(admin._id);
 
-    //   const options = {
-    //     httpOnly: true,
-    //     secure: false, // localhost
-    //     sameSite: "lax"
-    //   };
+      const options = {
+        httpOnly: true,
+        secure: false, // localhost
+        sameSite: "lax"
+      };
 
-    //   res.cookie("accessToken", token, options);
+      res.cookie("accessToken", accessToken, options);
 
-    //   res.render("home", { 
-    //     local: { id: user._id },
-    //     analytics: { redirectURL: null, visitHistory: [] }
-    //   });
+      console.log("reached here");
 
-    console.log("reached here");
-
-    res.render('admin_home',{name:admin.name, email:email, bcode: admin.branchcode, orders:{}});
+      res.render('admin_home',{name:admin.name, email:admin.email, bcode: admin.branchcode, orders:{}});
 
 }
 

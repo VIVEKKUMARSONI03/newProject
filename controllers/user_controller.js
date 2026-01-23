@@ -1,11 +1,14 @@
 const User = require('../models/user_model');
 const Branch = require('../models/branch_model');
 const Order = require('../models/order_model');
+const Admin = require('../models/admin_model');
+const Partner = require('../models/partener_model');
 
 const { loginAdmin, registerAdmin } = require('./admin_controller');
 const { loginPartner, registerPartner } = require('./partner_controller');
 
 const bcrypt = require('bcryptjs');
+const jwt = require("jsonwebtoken");
 
 const generateAccessAndRefereshTokens = async (userId) => {
     try {
@@ -55,7 +58,7 @@ const loginUser = async (req, res) => {
         sameSite: "lax"
     };
 
-    res.cookie("accessToken", token, options);
+    res.cookie("accessToken", token.accessToken, options);
 
     console.log("reached here");
 
@@ -68,7 +71,7 @@ const registerUser = async (req, res) => {
     try {
         const { name, email, password, placename, lat, lng } = req.body;
 
-        console.log(name, email, password, lat,lng, placename);
+        console.log(name, email, password, lat, lng, placename);
 
         const userExists = await User.findOne({ email });
         if (userExists) {
@@ -79,29 +82,29 @@ const registerUser = async (req, res) => {
         const branch_list = await Branch.find();
 
         if (!branch_list) {
-            return res.render("register",{rolla: 'user'});
+            return res.render("register", { rolla: 'user' });
         }
 
         if (!placename || !lat || !lng) {
-            return res.render("register", {rolla : 'user'});
+            return res.render("register", { rolla: 'user' });
         }
 
-        if( branch_list.length === 0){
-            return res.json({message: 'no branch listed'});
+        if (branch_list.length === 0) {
+            return res.json({ message: 'no branch listed' });
         }
 
 
         let minDist = Infinity;
         let selected_barnch;
 
-        for( const branch of branch_list){
+        for (const branch of branch_list) {
 
             const x = lat - branch.location.lat;
             const y = lng - branch.location.lng;
 
-            if( (x*x)+(y*y) < minDist ){
-               selected_barnch = branch;
-               minDist = (x*x)+(y*y);
+            if ((x * x) + (y * y) < minDist) {
+                selected_barnch = branch;
+                minDist = (x * x) + (y * y);
             }
         }
 
@@ -134,21 +137,21 @@ const registerUser = async (req, res) => {
 
 const create_order = async (req, res, next) => {
 
-    const {payment_mode}  = req.body;
+    const { payment_mode } = req.body;
 
-    
+
 
     const { email } = req.params;
 
-    const user = await User.findOne({ email: email }); 
+    const user = await User.findOne({ email: email });
 
     if (!user) {
         console.log('user not found for order');
         res.render('login');
     }
 
-     if( user.has_order.length >= 1){
-        res.send({message : 'you already have an order'});
+    if (user.has_order.length >= 1) {
+        res.send({ message: 'you already have an order' });
         return;
     }
 
@@ -160,13 +163,13 @@ const create_order = async (req, res, next) => {
     })
 
     const updateduser = await User.findOneAndUpdate(
-    { email: email },
-    { $push: { has_order: order._id } },
-    { new: true }
+        { email: email },
+        { $push: { has_order: order._id } },
+        { new: true }
     );
 
     console.log('order placed and your order is : ', order._id);
-    res.render('home', { email: email, name: user.name, bcode: user.branchcode, has_order: updateduser.has_order});
+    res.render('home', { email: email, name: user.name, bcode: user.branchcode, has_order: updateduser.has_order });
 
 }
 
@@ -186,25 +189,25 @@ const show_map = async (req, res, next) => {
 
 const cancel = async (req, res, next) => {
 
-     const {email} = req.params;
+    const { email } = req.params;
 
-     const user = await User.findOne({email: email});
+    const user = await User.findOne({ email: email });
 
-     const order = await Order.findOneAndDelete({user: user._id});
+    const order = await Order.findOneAndDelete({ user: user._id });
 
-     const updated_user = await User.findOneAndUpdate(
-        {email : email},
-        { $pop :{has_order:1}},
-        {new:true}
-     )
+    const updated_user = await User.findOneAndUpdate(
+        { email: email },
+        { $pop: { has_order: 1 } },
+        { new: true }
+    )
 
-     console.log('order cancelled',order._id);
+    console.log('order cancelled', order._id);
 
-     res.render('home', { email: email, name: user.name, bcode: user.branchcode, has_order: updated_user.has_order});
+    res.render('home', { email: email, name: user.name, bcode: user.branchcode, has_order: updated_user.has_order });
 }
 
 // const delivered = async(req, res, next)=> {
-     
+
 //        const {email} = req.params;
 
 //        const user = await User.findOneAndUpdate(
@@ -220,4 +223,40 @@ const cancel = async (req, res, next) => {
 //        res.render('home', { email: email, name: user.name, bcode: user.branchcode, has_order: user.has_order});
 // }
 
-module.exports = { loginUser: loginUser, registerUser: registerUser, create_order: create_order, show_map: show_map, cancel: cancel };
+const checkUser = async (req, res) => {
+
+    try {
+
+        // console.log(req.cookies);
+        const token = req.cookies?.accessToken;
+        console.log(token);
+
+        if (!token || typeof token !== "string") {
+            return res.render("base_home");
+        }
+        const decodedToken = jwt.verify(token, process.env.ACCESS_TOKEN_SECRET);
+        console.log(decodedToken);
+
+        const user = await User.findById(decodedToken._id).select("-password");
+        const partner = await Partner.findById(decodedToken._id).select('-password');
+        const admin = await Admin.findById(decodedToken._id).select('-password');
+
+        if (user) {
+            return res.render("home", { email: user.email, name: user.name, bcode: user.branchcode, has_order: user.has_order });
+        }
+        else if(partner){
+            return res.render('partner_home', { email: partner.email, name: partner.name, bcode: partner.branchcode });
+        }
+        else if( admin){
+            return res.render('admin_home',{name:admin.name, email:admin.email, bcode: admin.branchcode, orders:{}});
+        }
+
+        
+
+    } catch (error) {
+        console.log("JWT error:", error.message);
+        return res.render('base_home');
+    }
+};
+
+module.exports = { loginUser: loginUser, registerUser: registerUser, create_order: create_order, show_map: show_map, cancel: cancel, checkUser: checkUser };
